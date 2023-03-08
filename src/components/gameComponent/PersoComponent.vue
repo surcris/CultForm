@@ -5,7 +5,7 @@
 </template>
 
 <script >
-import dataGameComponent from '../../services/dataGameComponent' 
+
 
 export default{
     props: ['joueur','adversaireCarre'],
