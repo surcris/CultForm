@@ -1,0 +1,404 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(0deg, rgba(77,25,77,1) 0%,
+     rgba(58,0,64,0.9192051820728291) 46%, rgba(0,100,102,1) 100%);
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 0.9fr 1.2fr 0.9fr;
+    grid-template-rows: 1.5fr 1fr 0fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    justify-items: stretch;
+    grid-template-areas:
+        "stats perso map"
+        "combat combat combat"
+        ". . .";
+}
+
+.combat {
+    display: grid;
+    grid-template-columns: 1.1fr 0.8fr 1.1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "joueur . ennemie"
+        "joueur . ennemie"
+        "joueur . ennemie";
+    grid-area: combat;
+    background: rgb(37,0,41);
+    background: linear-gradient(0deg, rgba(37,0,41,1) 0%, rgba(58,0,64,1) 48%, 
+    rgba(58,0,64,0.05) 100%);
+}
+
+.joueur {
+    grid-area: joueur;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.action-joueur{
+    /* border: #afafaf solid 1px; */
+    height: 80%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+
+}
+.action-joueur button{
+    max-width: 100%;
+    min-width: 80%;
+    height: 30px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border: none;
+    background-color: #23c483 ;
+    color: #2c0031;
+    border-radius: 5px;
+    transition: all 0.3s ease 0s;
+    font-weight: 500;
+}
+.action-joueur button:hover {
+    background-color: #2c0031;
+    box-shadow: 0px 2px 5px #60006b;
+    color: #fff;
+    transform: translateY(-2px);
+}
+.ennemie {
+    grid-area: ennemie;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perso {
+    grid-area: perso;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.map {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 0.5fr;
+    grid-template-rows: 0.3fr 1.7fr 1fr;
+
+    gap: 0px 0px;
+    grid-template-areas: 
+    "Navbar Navbar Navbar"
+    "espacePlayer espacePlayer menuJeu"
+    "espacePlayer espacePlayer menuJeu"; 
+    grid-area: map;
+}
+
+.Navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    grid-area: Navbar;
+    
+}
+.Navbar .profil{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    border-radius: 30px;
+    height: 40px;
+    width: 80px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #250029;
+    color: #23c483;
+    font-size: 20px;
+    transition: all 0.3s ease 0s;
+    font-size: 23px;
+}
+.profil:hover {
+    background-color: #23c483;
+    box-shadow: 0px 2px 5px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.profil:active {
+    transform: translateY(-1px);
+}
+.Navbar p{
+    
+    margin: 0px;
+}
+
+
+.menuJeu {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    grid-area: menuJeu;
+}
+.menuJeu i{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    
+    border-radius: 100%;
+    background-color: #250029;
+    color: #23c483;
+    transition: all 0.3s ease 0s;
+}
+
+.menuJeu i:hover {
+    background-color: #23c483;
+    box-shadow: 0px 2px 5px rgba(46, 229, 157, 0.4);
+    color:#250029;
+    transform: translateY(-2px);
+}
+
+.menuJeu i:active {
+    transform: translateY(-1px);
+}
+
+.espacePlayer { 
+    
+    grid-area: espacePlayer; 
+}
+.inventaire,
+.mapMonde{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 450px;
+    background-color: #250029;
+    border-radius: 5px;
+    
+    
+}
+.inventaire-titre,
+.mapMonde-titre{
+    width: 100%;
+    height: 30px;
+    
+    color: #0ce48e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    border-radius: 5px;
+    
+}
+.inventaire-contenu{
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 60px);
+    gap: 5px;
+    color: #0ce48e;
+    
+    height: 95%;
+    overflow-y: scroll;
+   
+    
+}
+.inventaire-contenu::-webkit-scrollbar {
+    display: none;
+}
+.inventaire-contenu div{
+
+    background-color: #0ce48e;
+    
+    height: 60px;
+    
+    
+}
+/* @media (max-width: 1600px){
+    .inventaire-contenu div{
+
+    
+        background-color: #0ce48e;
+        width: calc(20% - 5px);
+        height: 60px;
+        margin-top: 5px;
+        margin-left: 2.5px;
+        margin-right: 2.5px;
+    }
+
+} */
+
+canvas {
+    background-color: #4244461a;
+
+    border: 1px #00000042  solid;
+    border-radius: 5px;
+}
+
+.stats {
+    width: 100%;
+    grid-area: stats;
+    color: #0ce48e;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.stats::-webkit-scrollbar {
+    display: none;
+}
+/* .stats > div:first-child{
+    margin-top: 50px;
+} */
+.onglet-stats {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-left: 5%;
+}
+.onglet-stats div{
+    width: 20%;
+    
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    background-color: #250029;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+.onglet-stats div:hover
+{
+    background-color: #23c483;
+    box-shadow: 0px 2px 5px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.stats-elementaire,
+.stats-info {
+
+    
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+}
+
+.stats-elementaire div,
+.stats-info div {
+    width: 100%;
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.stats-info .nom-joueur {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 35px;
+}
+
+.stats-elementaire div div:nth-child(1),
+.stats-info div div:nth-child(1) {
+    margin-left: 2%;
+
+}
+
+.stats-info div div:nth-child(2) {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 2%;
+}
+
+.stats-elementaire div div:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 2%;
+}
+
+.stats-resistance,
+.stats-dommage {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.stats-resistance div,
+.stats-dommage div {
+    width: 45%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.stats-resistance div p:nth-child(1),
+.stats-dommage div p:nth-child(1) {
+    width: 70%;
+    margin-left: 4%;
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.stats-resistance div div:nth-child(2),
+.stats-dommage div div:nth-child(2) {
+    width: 20%;
+    justify-content: flex-end;
+    margin-right: 5%;
+}
+
+.stats-elementaire .elementaire,
+.stats-dommage .dommage,
+.stats-resistance .resistance,
+.stats-info .infoPlayer,
+.stats-info .infoXp {
+    background-color: #250029;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    /* border: 1px solid #490050;
+    background-color: rgb(73, 0, 80);
+    border-radius: 5px; */
+}
+
+
+.stats-elementaire .elementaire:hover,
+.stats-dommage .dommage:hover,
+.stats-resistance .resistance:hover,
+.stats-info .infoPlayer:hover,
+.stats-info .infoXp:hover {
+    background-color: #23c483;
+    box-shadow: 0px 2px 5px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.stats-dommage div div:nth-child(2) div {}
+
+.container * {}
