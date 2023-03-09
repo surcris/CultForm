@@ -2,23 +2,24 @@ import firebase from '../firebase';
 const db = firebase.ref('/joueur');
 
 class JoueurDataService{
-    // Pour récup tous les articles
+    // Pour récup tous les joueurs
     getAll(){
         return db;
     }
-    // Pour créer 1 article en +
+    // Pour créer 1 joueur en +
     create(joueur){
         return db.push(joueur);
     }
-    // Pour MAJ 1 article
+    // Pour MAJ 1 joueur
     update(key, value){
-        return db.child(key).update(value);
+        //console.log("Update")
+        return db.child(key).set(value);
     }
-    //Pour Delete 1 article
+    //Pour Delete 1 joueur
     delete(key){
         return db.child(key).remove();
     }
-    //pour delete Tous les Articles
+    //pour delete Tous les joueurs
     deleteAll(){
         return db.remove();
     }

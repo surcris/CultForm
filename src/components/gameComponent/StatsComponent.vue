@@ -60,10 +60,10 @@
 
 
 <script >
-
+import joueurDataServices from '../../services/joueurDataServices' 
 
 export default{
-    props: ['joueur','adversaireCarre'],
+    props: ['joueur','adversaireCarre',"idDb"],
     data(){
         return{
             // joueur:dataGameComponent.data().joueur,
@@ -106,7 +106,7 @@ export default{
         this.joueurInfo.stats["Eau"] = this.joueur.eau;
     },
     watch:{
-
+       
 
         
         'joueur': {
@@ -126,6 +126,12 @@ export default{
                 this.joueurInfo.stats["Feu"] = this.joueur.feu;
                 this.joueurInfo.stats["Terre"] = this.joueur.terre;
                 this.joueurInfo.stats["Eau"] = this.joueur.eau;
+                //onsole.log(this.idDb)
+                if (this.idDb) {
+                    joueurDataServices.update(this.idDb,this.joueur);
+                    //console.log('Update')
+                }
+                
             },
             deep: true
         }

@@ -2,6 +2,8 @@
     <div class="map">
         <div class="Navbar">
             <!-- <div><p>Profil</p></div> -->
+            
+            <div @click="btnSendJoueur" class="profil"><button>Send</button></div>
             <div class="profil"><p>Admin</p></div>
             
         </div>
@@ -28,7 +30,7 @@
 </template>
 
 <script>
-//import dataGameComponent from '../../services/dataGameComponent' 
+import joueurDataServices from '../../services/joueurDataServices' 
 import { Icon } from '@iconify/vue';
 
 export default{
@@ -46,10 +48,27 @@ export default{
             displayMap:'none',
 
             inventairePlace:80,
+            sendBool:false,
         }
         
     },
     methods:{
+        btnSendJoueur(){
+            // if (this.sendBool) {
+            //     joueurDataServices.create(this.joueur)
+            //     .then(()=>{
+            //         this.sendBool=true;
+            //         console.log('Article Crée avec Succès !');
+            //     })
+            //     .catch(error=>{
+            //         console.log(error);
+            //     });
+
+            // }else{
+            //     console.log('Article Déja créer !');
+            // }
+            
+        },
         btnInventaire(){
             
             this.displayInventaireBool=!this.displayInventaireBool;
@@ -87,5 +106,16 @@ export default{
 </script>
 
 <style>
+.profil button{
+    border: none;
+    background-color: transparent;
+    font-size: 20px;
+    color: #23c483;
+}
 
+.profil:hover button{
+    
+    color: #fff;
+    
+}
 </style>
