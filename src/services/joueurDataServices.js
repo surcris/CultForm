@@ -6,6 +6,10 @@ class JoueurDataService{
     getAll(){
         return db;
     }
+    // Pour récup un joueur
+    getOne(key){
+        return db.child(key);
+    }
     // Pour créer 1 joueur en +
     create(joueur){
         return db.push(joueur);
@@ -25,3 +29,4 @@ class JoueurDataService{
     }
 };
 export default new JoueurDataService();
+export let firebaseKey;

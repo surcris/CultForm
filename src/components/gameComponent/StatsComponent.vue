@@ -63,7 +63,7 @@
 import joueurDataServices from '../../services/joueurDataServices' 
 
 export default{
-    props: ['joueur','adversaireCarre',"idDb"],
+    props: ['joueur','adversaireCarre',"myKey"],
     data(){
         return{
             // joueur:dataGameComponent.data().joueur,
@@ -127,8 +127,9 @@ export default{
                 this.joueurInfo.stats["Terre"] = this.joueur.terre;
                 this.joueurInfo.stats["Eau"] = this.joueur.eau;
                 //onsole.log(this.idDb)
-                if (this.idDb) {
-                    joueurDataServices.update(this.idDb,this.joueur);
+                if (this.myKey) {
+                    
+                    joueurDataServices.update(this.myKey,this.joueur);
                     //console.log('Update')
                 }
                 

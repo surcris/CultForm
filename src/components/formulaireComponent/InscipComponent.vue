@@ -28,10 +28,11 @@
 import joueurDataServices from '../../services/joueurDataServices' 
 
 export default {
-    props:['joueur','formMode'],
+    props:['joueur'],
     components: {
 
     },
+    //emits: ['firebase-key'],
     data() {
         return {
             player:[],
@@ -80,6 +81,7 @@ export default {
 
         },
         matchData(){
+            
             let l_match = 0;
             console.log(this.pseudo)
             
@@ -99,6 +101,7 @@ export default {
                 this.joueur.nom = this.pseudo;
                 this.createPlayer(this.joueur);
                 //Redirige vers la page game
+                
                 this.$router.push('/game');
             }else{
                 console.log("Pseudo déja utiliser");
