@@ -2,10 +2,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     
-            <div class="form-group">
+            <div class="form-group" >
                 <label for="exampleInputEmail1" class="col-md-12 text-center">Connexion</label>
                 <label for="exampleInputEmail1" class="col-md-12 text-right">Entrer votre pseudo</label>
-                <input type="text" v-model="pseudo" class="form-control " id="" placeholder="Pseudo">
+                <input type="text" @keydown.enter="test" v-model="pseudo" class="form-control " id="" placeholder="Pseudo">
                 <small v-if="matchBool == false" id="emailHelp" class="form-text text-right text-danger">Vous n'etes pas
                     enregistrer</small>
                 <!-- <div v-if="matchBool" class="invalid-feedback">
@@ -55,6 +55,9 @@ export default {
         //         this.$router.push('/game');
         //     }
         // },
+        test(){
+            console.log("TEST");
+        },
         onDataChange(lesPlayer) {
             let l_player = [];
             lesPlayer.forEach(unPlayer => {
@@ -74,7 +77,7 @@ export default {
 
         },
         matchData() {
-            let l_key = '';
+            //let l_key = '';
             let l_found = false;
             this.player.forEach(unPlayer => {
 
@@ -87,6 +90,7 @@ export default {
                     this.thekey.key = unPlayer.key
                     //console.log(this.thekey.key);
                     console.log("Match");
+                    
                     //this.$emit('firebase-key', l_key);
                     //Redirige vers la page game
                     //this.$router.push('/game');

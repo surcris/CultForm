@@ -5,7 +5,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1" class="col-md-12 text-center">Inscription</label>
                 <label for="exampleInputEmail1" class="col-md-12 text-right">Créer un pseudo</label>
-                <input type="text" v-model="pseudo" class="form-control " id=""  placeholder="Pseudo">
+                <input @keyup.enter="matchData" type="text" v-model="pseudo" class="form-control " id=""  placeholder="Pseudo">
                 <small v-if="matchBool==false" id="emailHelp" class="form-text text-right text-danger">Ce pseudo est déja pris</small> 
                 <!-- <div v-if="matchBool" class="invalid-feedback">
                     Please choose a other Pseudo.
