@@ -38,7 +38,7 @@ export default {
 
 <template>
   <div class="login">
-    <form>
+    
       <div v-if="formMode">
         <ConnectComponentVue :joueur="joueur" :thekey="thekey" />
         <div class="form-group text-center">
@@ -54,7 +54,7 @@ export default {
         </div>
       
       </div>
-    </form>
+    
   </div>
   <!-- <div class="form-group text-center">
     <button @click="getKey" class="btn btn-primary my-2">Key</button>

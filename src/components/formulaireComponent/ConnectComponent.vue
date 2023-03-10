@@ -5,7 +5,7 @@
             <div class="form-group" >
                 <label for="exampleInputEmail1" class="col-md-12 text-center">Connexion</label>
                 <label for="exampleInputEmail1" class="col-md-12 text-right">Entrer votre pseudo</label>
-                <input type="text" @keydown.enter="test" v-model="pseudo" class="form-control " id="" placeholder="Pseudo">
+                <input type="text" @keyup.enter="matchData" v-model="pseudo" class="form-control " id="" placeholder="Pseudo">
                 <small v-if="matchBool == false" id="emailHelp" class="form-text text-right text-danger">Vous n'etes pas
                     enregistrer</small>
                 <!-- <div v-if="matchBool" class="invalid-feedback">
@@ -48,6 +48,16 @@ export default {
         }
     },
     methods: {
+        onPressEnter(e) {
+            if (e.key !== "enter") {
+                // guard against non-period presses
+                return;
+            }else{
+                //this.matchData();
+                console.log("appuié");
+            }
+            //onPressPeriod()
+        },
 
         // redirectToGame() {
         //     //vérifie vos conditions et redirige
