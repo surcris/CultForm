@@ -37,21 +37,28 @@ export default {
 
 
 <template>
-  <div v-if="formMode">
-    <ConnectComponentVue :joueur="joueur" :thekey="thekey" />
-    <div class="form-group text-center">
-      <button @click="changeFormMode" class="btn btn-primary my-2">Inscription</button>
-    </div>
+  <div class="login">
+    <form>
+      <div v-if="formMode">
+        <ConnectComponentVue :joueur="joueur" :thekey="thekey" />
+        <div class="form-group text-center">
+          <!-- <button @click="changeFormMode" class="btn btn-primary my-2">Inscription</button> -->
+          <small @click="changeFormMode" id="emailHelp" class="form-text text-right ">Inscription</small>
+        </div>
+      </div>
+      <div v-else>
+        <InscipComponent :joueur="joueur"  />
+        <div class="form-group text-center">
+          <!-- <button @click="changeFormMode" class="btn btn-primary my-2">Connexion</button> -->
+          <small @click="changeFormMode" id="emailHelp" class="form-text text-right ">Connexion</small>
+        </div>
+      
+      </div>
+    </form>
   </div>
-  <div v-else>
-    <InscipComponent :joueur="joueur"  />
-    <div class="form-group text-center">
-      <button @click="changeFormMode" class="btn btn-primary my-2">Connexion</button>
-    </div>
-  </div>
-  <div class="form-group text-center">
+  <!-- <div class="form-group text-center">
     <button @click="getKey" class="btn btn-primary my-2">Key</button>
-  </div>
+  </div> -->
 
   <!-- <InscipComponent :joueur="joueur" /> -->
 </template>
@@ -67,5 +74,18 @@ body {
   align-items: center;
   justify-content: center;
 
+}
+
+.login {
+    width: 360px;
+    height: min-content;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: aliceblue;
+}
+
+.login label {
+    font-size: large;
+    font-weight: bold;
 }
 </style>
