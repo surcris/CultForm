@@ -98,6 +98,8 @@ export default {
             });
             if (!l_match) {
                 
+                this.joueur.resetPerso();
+                
                 this.joueur.nom = this.pseudo;
                 this.createPlayer(this.joueur);
 
@@ -108,7 +110,7 @@ export default {
                 });
                 
                 //Redirige vers la page game
-                console.log(l_key);
+                //console.log(l_key);
                 let l_crpKey = this.encryptData(l_key);
                 //console.log(l_crpKey);
                 localStorage.setItem('key', l_crpKey)

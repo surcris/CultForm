@@ -44,6 +44,28 @@ export default class Personnage{
         this.pointElementaire = 0;
 
     }
+    resetPerso(){
+        this.nom = '';
+        this.vieMax = 100;
+        this.vieAct = this.vieMax;
+        this.niveau = 1;
+        this.xp = 0;
+        this.expLvl = 200*this.niveau*(1+this.niveau);;
+        this.eau = 10;
+        this.feu = 10;
+        this.air = 10;
+        this.terre = 10;
+        this.puissance = 30;
+        this.dommage = 5;
+        this.degatBrut =0;
+        this.resEau = 5;
+        this.resFeu = 5;
+        this.resTerre = 5;
+        this.resAir = 5;
+        this.resBrut = 0;
+        this.pointCompetence = 0;
+        this.pointElementaire = 0;
+    }
     initStat(niveau,resEau,resFeu,resTerre,resAir,resBrut){
 
         this.niveau = niveau;
