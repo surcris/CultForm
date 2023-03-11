@@ -23,6 +23,8 @@
 
 <script>
 import joueurDataServices from '../../services/joueurDataServices' 
+import Personnage from '../../class/personnage.js';
+import CryptoJS from 'crypto-js';
 
 export default {
     props:['joueur'],
@@ -37,9 +39,15 @@ export default {
             pseudo:"",
             matchBool:true,
             //goTo:false
+            personnage: new Personnage('')
+            
         }
     },
     methods: {
+        encryptData(data) {
+            const key = import.meta.env.VITE_APP_KEY;
+            return CryptoJS.AES.encrypt(data, key).toString();
+        },
         // signInButtonPressed() {
         //     console.log("Sign In Button Pressed");
             
@@ -51,7 +59,6 @@ export default {
         //         this.$router.push('/game');
         //     }
         // },
-        
         onDataChange(lesPlayer){
             let l_player = [];
             lesPlayer.forEach(unPlayer => {
@@ -90,6 +97,7 @@ export default {
                 }
             });
             if (!l_match) {
+                
                 this.joueur.nom = this.pseudo;
                 this.createPlayer(this.joueur);
 
@@ -98,9 +106,13 @@ export default {
                         l_key = unPlayer.key
                     }
                 });
-
+                
                 //Redirige vers la page game
-                localStorage.setItem('key', l_key);
+                console.log(l_key);
+                let l_crpKey = this.encryptData(l_key);
+                //console.log(l_crpKey);
+                localStorage.setItem('key', l_crpKey)
+
                 this.$router.push('/game');
             } 
         },

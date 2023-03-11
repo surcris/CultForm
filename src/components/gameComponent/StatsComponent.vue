@@ -128,7 +128,7 @@ export default{
                 this.joueurInfo.stats["Eau"] = this.joueur.eau;
                 //onsole.log(this.idDb)
                 if (this.myKey) {
-                    
+                    //console.log(this.joueur)
                     joueurDataServices.update(this.myKey,this.joueur);
                     //console.log('Update')
                 }

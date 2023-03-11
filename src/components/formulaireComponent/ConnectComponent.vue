@@ -29,6 +29,7 @@
 <script>
 import joueurDataServices from '../../services/joueurDataServices'
 import {firebaseKey} from '../../services/joueurDataServices'
+import CryptoJS from 'crypto-js';
 export default {
     props: {
         joueur: Object,
@@ -52,6 +53,15 @@ export default {
         //     console.log("Sign In Button Pressed");
             
         // },
+        encryptData(data) {
+            const key = import.meta.env.VITE_APP_KEY;
+            return CryptoJS.AES.encrypt(data, key).toString();
+        },
+        decryptData(ciphertext) {
+            const key = import.meta.env.VITE_APP_KEY;
+            const bytes = CryptoJS.AES.decrypt(ciphertext, key);
+            return bytes.toString(CryptoJS.enc.Utf8);
+        },
         onPressEnter(e) {
             if (e.key !== "enter") {
                 // guard against non-period presses
@@ -91,7 +101,7 @@ export default {
 
         },
         matchData() {
-            //let l_key = '';
+            let l_key = '';
             let l_found = false;
             this.player.forEach(unPlayer => {
 
@@ -101,18 +111,16 @@ export default {
                     l_found = true;
                     this.joueur.nom = this.pseudo;
 
-                    this.thekey.key = unPlayer.key
+                    l_key = unPlayer.key
                     //console.log(this.thekey.key);
                     console.log("Match");
                     
-                    //this.$emit('firebase-key', l_key);
-                    //Redirige vers la page game
-                    //this.$router.push('/game');
                 }
             });
             if (l_found) {
-                localStorage.setItem('key', this.thekey.key);
-                // this.$emit('firebase-key', l_key);
+                //console.log(l_key);
+                let l_crpKey = this.encryptData(l_key)
+                localStorage.setItem('key', l_crpKey)
                 // //Redirige vers la page game
                 this.$router.push('/game');
 

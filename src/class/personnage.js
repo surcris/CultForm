@@ -1,4 +1,4 @@
-class Personnage{
+export default class Personnage{
     vieMax;
     vieAct;
     nom;
@@ -199,7 +199,7 @@ class Personnage{
 
 }
 
-export default new Personnage();
+
 export let player = new Personnage('Surcris');
 export let ennemieCarre = new Personnage('Carre');
 

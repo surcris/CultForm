@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.3",
     "firebase": "^8.10.0",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"

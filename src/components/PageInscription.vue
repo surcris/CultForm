@@ -3,6 +3,7 @@
 
 import InscipComponent from './formulaireComponent/InscipComponent.vue';
 import ConnectComponentVue from './formulaireComponent/ConnectComponent.vue';
+
 import { player } from '../class/personnage';
 import { thekey } from '../class/myKey';
 

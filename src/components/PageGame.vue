@@ -7,6 +7,7 @@ import OptionPersoComponent from './gameComponent/OptionPersoComponent.vue';
 import PageInscriptionVue from './PageInscription.vue';
 import {player,ennemieCarre} from '../class/personnage' 
 import joueurDataServices from '../services/joueurDataServices' 
+import cryptoJs from 'crypto-js';
 import { thekey } from '../class/myKey';
 
 export default {
@@ -25,7 +26,7 @@ export default {
         playerData:[],
         gameBool:false,
         playerKey:[],
-        myKey:localStorage.getItem('key'),
+        myKey:this.decryptData(localStorage.getItem('key')),
         
     }
   },
@@ -47,29 +48,6 @@ export default {
         console.error(error);
       });
       
-      // let l_player = [];
-      // lesPlayer.forEach(unPlayer => {
-      //   // let key = unArticle.key;
-      //   let data = unPlayer.val();
-      //   l_player.push({
-      //     key: unPlayer.key,
-      //     dataDb: data,
-
-      //   })
-      // });
-      // this.playerData = l_player;
-      //console.log(this.playerData)
-      
-      // this.playerData.forEach(unPlayer => {
-      //   if (this.joueur.nom == unPlayer.dataDb.nom) {
-      //     //console.log(unPlayer.dataDb)
-      //     this.updateJoueurClass(unPlayer.dataDb);
-      //     this.idDb=unPlayer.key;
-      //     //console.log("Joueur Trouver");
-      //   } else {
-      //     //console.log("Joueur Inconnu");
-      //   }
-      // });
     },
     updateJoueurClass(dataDB){
       
@@ -80,9 +58,15 @@ export default {
         }
       }
       this.gameBool=true;
+    },
+    decryptData(ciphertext) {
+      const key = import.meta.env.VITE_APP_KEY;
+      const bytes = cryptoJs.AES.decrypt(ciphertext, key);
+      return bytes.toString(cryptoJs.enc.Utf8);
     }
   },
   mounted() {
+    //console.log(this.myKey)
     joueurDataServices.getOne(this.myKey).on('value', this.onDataChange);
     //console.log(this.myKey);
 
@@ -97,6 +81,7 @@ export default {
 
   },
   unmounted() {
+    //console.log(this.decryptData(this.myKey))
     joueurDataServices.getOne(this.myKey).off('value', this.onDataChange);
     //joueurDataServices.getAll().off('value', this.onDataChange);
   },
