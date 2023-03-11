@@ -24,6 +24,10 @@ export default {
     changeFormMode() {
       this.formMode = !this.formMode;
     },
+    signInButtonPressed(e) {
+      console.log("Sign In Button Pressed");
+      e.preventDefault();
+    },
     // onFirebaseKey(key) {
     //   this.firebaseKey = key;
     // },

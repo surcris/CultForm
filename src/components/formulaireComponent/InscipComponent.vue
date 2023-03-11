@@ -1,7 +1,7 @@
 <template>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" 
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    
+    <form @submit.prevent="matchData">
             <div class="form-group">
                 <label for="exampleInputEmail1" class="col-md-12 text-center">Inscription</label>
                 <label for="exampleInputEmail1" class="col-md-12 text-right">Créer un pseudo</label>
@@ -15,10 +15,10 @@
             <div class="col-md-12 text-center">
                 <!-- <router-link :to="redirectToGame">
                 </router-link> -->
-                <button @click="matchData"  type="button" class="btn btn-primary my-2">Valider</button>
+                <button  type="submit" class="btn btn-primary my-2">Valider</button>
             </div>
             
-      
+        </form>
 </template>
 
 <script>
@@ -40,6 +40,10 @@ export default {
         }
     },
     methods: {
+        // signInButtonPressed() {
+        //     console.log("Sign In Button Pressed");
+            
+        // },
         
         // redirectToGame() {
         //     //vérifie vos conditions et redirige
@@ -53,7 +57,6 @@ export default {
             lesPlayer.forEach(unPlayer => {
                 // let key = unArticle.key;
                 let data = unPlayer.val();
-                
                 l_player.push({
                     key:unPlayer.key,
                     dataDB:data,
@@ -62,12 +65,9 @@ export default {
             });
             this.player = l_player;
             //console.log(this.player)
-            
-            
-            
+
         },
         createPlayer(newPlayer){
-            
             joueurDataServices.create(newPlayer)
             .then(()=>{
                 console.log('Article Crée avec Succès !');
@@ -75,34 +75,34 @@ export default {
             .catch(error=>{
                 console.log(error);
             });
-
         },
         matchData(){
-            
-            let l_match = 0;
-            console.log(this.pseudo)
+            let l_key='';
+            let l_match = false;
+            //console.log(this.pseudo)
             
             this.player.forEach(unPlayer => {
                 //console.log(unPlayer)
                 if (this.pseudo == unPlayer.dataDB.nom) {
                     this.matchBool = false;
-
-                    l_match++;
-                } else {
-                    
-                    //console.log("UnMatch");
-                    return
+                    l_match = true;
+                    console.log("Pseudo déja utiliser");
                 }
             });
-            if (l_match==0) {
+            if (!l_match) {
                 this.joueur.nom = this.pseudo;
                 this.createPlayer(this.joueur);
+
+                this.player.forEach(unPlayer => {
+                    if (this.pseudo == unPlayer.dataDB.nom) {
+                        l_key = unPlayer.key
+                    }
+                });
+
                 //Redirige vers la page game
-                
+                localStorage.setItem('key', l_key);
                 this.$router.push('/game');
-            }else{
-                console.log("Pseudo déja utiliser");
-            }
+            } 
         },
 
     },
