@@ -53,8 +53,10 @@ export default {
         //     console.log("Sign In Button Pressed");
             
         // },
+
         encryptData(data) {
             const key = import.meta.env.VITE_APP_KEY;
+            
             return CryptoJS.AES.encrypt(data, key).toString();
         },
         decryptData(ciphertext) {
@@ -120,6 +122,7 @@ export default {
             if (l_found) {
                 //console.log(l_key);
                 let l_crpKey = this.encryptData(l_key)
+                
                 localStorage.setItem('key', l_crpKey)
                 // //Redirige vers la page game
                 this.$router.push('/game');

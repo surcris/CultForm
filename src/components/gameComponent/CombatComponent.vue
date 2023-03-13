@@ -12,6 +12,7 @@
                 <button @click="btnSoin">Soin</button>
                 <button @click="btnBuff">Buff</button>
                 <button @click="btnDegat">Self Degat</button>
+                <button @click="btnLevelUp">Level UP</button>
             
             </div>
         </div>
@@ -175,6 +176,9 @@ export default{
             //this.adversaireInfo.attaque = true;
             this.adversaireCarre.vieAct = this.adversaireCarre.vieMax;
             //this.joueur.display();
+        },
+        btnLevelUp(){
+            this.joueur.levelUp();
         },
         btnSoin(){
             this.joueur.heal();
