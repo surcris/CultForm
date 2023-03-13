@@ -26,7 +26,11 @@ export default{
             ctx.fillRect(x, y, canvas.width-(x*2), 10);
             // dessin de la barre de vie
             ctx.fillStyle = "azure";
-            const xpActuelle = (player.xp)*100/player.expLvl; // exemple : 100%
+            let xpActuelle = (player.xp)*100/player.expLvl; // exemple : 100%
+            //console.log(xpActuelle)
+            if (xpActuelle>=100) {
+                xpActuelle=100;
+            }
             const largeurBarreXP = xpActuelle  / 100 * (canvas.width-(x*2));
             ctx.fillRect(x, y, largeurBarreXP, 10);
             
