@@ -29,12 +29,36 @@ export default {
       console.log("Sign In Button Pressed");
       e.preventDefault();
     },
+    newVisitor(){
+      // Vérifie si un cookie avec l'identifiant existe déjà
+      if (document.cookie.indexOf('visitor_id=') === -1) {
+        // Si le cookie n'existe pas, c'est un nouveau visiteur
+        // On incrémente le compteur de visiteurs
+        // ...
+
+        // On crée un nouveau cookie avec un identifiant unique
+        const visitorId = this.generateUniqueVisitorId();
+        const expirationDate = new Date(Date.now() + 30 * 60 * 1000); // expire dans 1 an
+        document.cookie = `visitor_id=${visitorId}; expires=${expirationDate.toUTCString()}; path=/`;
+      }
+    },
+    generateUniqueVisitorId() {
+      let visitorId = localStorage.getItem("visitorId");
+      if (!visitorId) {
+        visitorId = Math.random().toString(36).substr(2, 9);
+        localStorage.setItem("visitorId", visitorId);
+      }
+      return visitorId;
+    },
     // onFirebaseKey(key) {
     //   this.firebaseKey = key;
     // },
     // getKey() {
     //   console.log(this.firebaseKey)
     // }
+  },
+  created(){
+    this.newVisitor();
   }
 }
 
