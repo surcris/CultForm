@@ -28,9 +28,6 @@ export default{
             ctx.fillStyle = "azure";
             let xpActuelle = (player.xp)*100/player.expLvl; // exemple : 100%
 
-            
-           
-
             if (xpActuelle>100) {
 
                 xpActuelle=100;
