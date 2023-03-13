@@ -143,16 +143,6 @@ export default class Personnage{
         this.niveau = niveau;
     }
     levelUp(){
-    
-        
-
-        
-    }
-    gainXpPassive(){
-        this.xp += 100;
-        
-        //this.expLvl = 200*this.niveau*(1+this.niveau);
-        //console.log(this.nom," xp requie : ",this.expLvl," ||| ","xp : ",this.xp);
         if (this.xp >= this.expLvl ) {
             this.xp =this.xp - this.expLvl;
             this.niveau += 1;
@@ -164,6 +154,24 @@ export default class Personnage{
             //this.xp = 0;
             //this.getNiveau();
         }
+        
+    }
+    gainXpPassive(){
+        this.xp += 100;
+        
+        //this.expLvl = 200*this.niveau*(1+this.niveau);
+        // //console.log(this.nom," xp requie : ",this.expLvl," ||| ","xp : ",this.xp);
+        // if (this.xp >= this.expLvl ) {
+        //     this.xp =this.xp - this.expLvl;
+        //     this.niveau += 1;
+        //     this.vieMax += 50;
+        //     this.vieAct = this.vieMax;
+        //     this.pointElementaire += 5;
+        //     this.expLvl = 200*this.niveau*(1+this.niveau);
+        //     //this.display();
+        //     //this.xp = 0;
+        //     //this.getNiveau();
+        // }
         
     }
     gainXpCombat(xp){
@@ -171,22 +179,22 @@ export default class Personnage{
         
         //this.expLvl = 200*this.niveau*(1+this.niveau);
         //console.log(this.nom," xp requie : ",this.expLvl," ||| ","xp : ",this.xp);
-        if (this.xp >= this.expLvl ) {
-           // console.log(this.expLvl,"-",this.xp)
-           while (this.xp >= this.expLvl ) {
-            this.xp =this.xp - this.expLvl;
-           // console.log(this.xp)
-            this.niveau += 1;
-            this.vieMax += 50;
-            this.vieAct = this.vieMax;
-            this.pointElementaire += 5;
-            this.expLvl = 200*this.niveau*(1+this.niveau);
-           }
+        // if (this.xp >= this.expLvl ) {
+        //    // console.log(this.expLvl,"-",this.xp)
+        //    while (this.xp >= this.expLvl ) {
+        //     this.xp =this.xp - this.expLvl;
+        //    // console.log(this.xp)
+        //     this.niveau += 1;
+        //     this.vieMax += 50;
+        //     this.vieAct = this.vieMax;
+        //     this.pointElementaire += 5;
+        //     this.expLvl = 200*this.niveau*(1+this.niveau);
+        //    }
             
-            //this.display();
-            //this.xp = 0;
-            //this.getNiveau();
-        }
+        //     //this.display();
+        //     //this.xp = 0;
+        //     //this.getNiveau();
+        // }
     }
 
 
