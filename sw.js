@@ -7,7 +7,7 @@ self.addEventListener('install', event => {
         '/',
         '/index.html',
         '/main.js',
-        '/registerServiceWorker.js'
+        '/services/registerServiceWorker.js'
       ])
     })
   )
