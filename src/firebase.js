@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import "firebase/database";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDBSDqxcpDVzrUEKel3KUvzcUlF8AFkgj0",
+    apiKey: API_KEY,
     authDomain: "game-e6fea.firebaseapp.com",
     databaseURL: "https://game-e6fea-default-rtdb.firebaseio.com",
     projectId: "game-e6fea",
