@@ -377,7 +377,7 @@ export default{
                 
                 if (this.myKey != 0) {
 
-                    axios.put(import.meta.env.VITE_APP_URL + '/api/data/' + this.myKey, this.joueur)
+                    //axios.put(import.meta.env.VITE_APP_URL + '/api/data/' + this.myKey, this.joueur)
 
                 }
                 
