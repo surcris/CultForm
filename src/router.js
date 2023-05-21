@@ -8,15 +8,41 @@ import { createWebHistory, createRouter } from "vue-router";
 const routes =  [
     {
         path: "/",
-        alias: "/inscription",
-        name: "inscription",
-        component: () => import("./components/PageInscription.vue"),
+        alias: "/accueil",
+        name: "accueil",
+        component: () => import("./components/PageAccueil.vue"),
+        
+    },
+    {
+        path: "/authPersonnage",
+        name: "authPersonnage",
+        component: () => import("./components/PageAuthPersonnage.vue"),
+        
+        
+    },
+    {
+        
+        path: "/authUser/:mode",
+        name: "authentificationUser",
+        component: () => import("./components/PageAuthUser.vue"),
+        props:true
         
     },
     {
         path: "/game",
         name: "game",
         component: () => import("./components/PageGame.vue")
+    },
+    // {
+    //     name:'Forum',
+    //     path:'/Forum',
+    //     component: () => import("./components/PageForum.vue")
+    // },
+    {
+        name:'Forum',
+        path:'/Forum/:modeForum',
+        component: () => import("./components/PageForum.vue"),
+        props:true
     },
     {
         name:'NotFound',

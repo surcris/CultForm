@@ -1,9 +1,10 @@
 <script>
 
 
-import InscipComponent from './formulaireComponent/InscipComponent.vue';
-import ConnectComponentVue from './formulaireComponent/ConnectComponent.vue';
-
+import InscipComponent from './formulairePersonnageComponent/InscipComponent.vue';
+import ConnectComponentVue from './formulairePersonnageComponent/ConnectComponent.vue';
+import HeaderComponent from './HeaderComponent.vue';
+import axios from 'axios'
 import { player } from '../class/personnage';
 import { thekey } from '../class/myKey';
 
@@ -11,6 +12,7 @@ export default {
   components: {
     InscipComponent,
     ConnectComponentVue,
+    HeaderComponent
   },
   data() {
     return {
@@ -57,64 +59,71 @@ export default {
     //   console.log(this.firebaseKey)
     // }
   },
-  created(){
+  async created(){
+    //recupere les data de la page http://localhost:3001/api/data et les met dans userData 
+    //this.userData = await axios.get(import.meta.env.VITE_APP_URL+'/api/data');
+    //console.log(this.userData.data);
     this.newVisitor();
+  },
+  mounted(){
+    
   }
+  
 }
 
 </script>
 
 
 <template>
-  <div class="login">
-    
-      <div v-if="formMode">
-        <ConnectComponentVue :joueur="joueur" :thekey="thekey" />
-        <div class="form-group text-center">
-          <!-- <button @click="changeFormMode" class="btn btn-primary my-2">Inscription</button> -->
-          <small @click="changeFormMode" id="emailHelp" class="form-text text-right ">Inscription</small>
-        </div>
-      </div>
-      <div v-else>
-        <InscipComponent :joueur="joueur"  />
-        <div class="form-group text-center">
-          <!-- <button @click="changeFormMode" class="btn btn-primary my-2">Connexion</button> -->
-          <small @click="changeFormMode" id="emailHelp" class="form-text text-right ">Connexion</small>
-        </div>
+  <div id="div-body">
+    <HeaderComponent/>
+    <div class="main">
       
-      </div>
-    
-  </div>
-  <!-- <div class="form-group text-center">
-    <button @click="getKey" class="btn btn-primary my-2">Key</button>
-  </div> -->
+        <ConnectComponentVue :joueur="joueur" :thekey="thekey" />
+        <!--<div class="form-group text-center">
+           <button @click="changeFormMode" class="btn btn-primary my-2">Inscription</button> 
+          <small @click="changeFormMode" id="emailHelp" class="form-text text-right ">Inscription</small>
+        </div>-->
 
-  <!-- <InscipComponent :joueur="joueur" /> -->
+        <!--<InscipComponent :joueur="joueur" />
+        <div class="form-group text-center">
+           <button @click="changeFormMode" class="btn btn-primary my-2">Connexion</button> 
+          <small @click="changeFormMode" id="emailHelp" class="form-text text-right ">Connexion</small>
+        </div>-->
+
+     
+    </div>
+      
+ 
+  </div>
+
 </template>
 
-<style>
-body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(0deg, rgba(77, 25, 77, 1) 0%,
-      rgba(58, 0, 64, 0.9192051820728291) 46%, rgba(0, 100, 102, 1) 100%);
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
+<style scoped>
+#div-body {
+    background-color: #0B525B;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Kodchasan';
+}
+.main{
+    width: 100vw;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
 }
 
-.login {
-    width: 360px;
-    height: min-content;
-    padding: 20px;
-    border-radius: 12px;
-    background-color: aliceblue;
-}
-
-.login label {
-    font-size: large;
-    font-weight: bold;
+@media screen and (max-width: 800px){
+  .main{
+    width: 100vw;
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
 }
 </style>

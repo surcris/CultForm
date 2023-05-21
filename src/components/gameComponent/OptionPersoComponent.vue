@@ -3,7 +3,7 @@
         <div class="Navbar">
             <!-- <div><p>Profil</p></div> -->
             
-            <div @click="btnSendJoueur" class="profil"><button>Send</button></div>
+            <div @click="btnSendJoueur" class="profil"><button>Acceuil</button></div>
             <div class="profil"><p>Admin</p></div>
             
         </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import joueurDataServices from '../../services/joueurDataServices' 
+//import joueurDataServices from '../../services/joueurDataServices' 
 import { Icon } from '@iconify/vue';
 
 export default{
@@ -67,7 +67,7 @@ export default{
             // }else{
             //     console.log('Article Déja créer !');
             // }
-            
+            this.$router.push({ name: 'accueil'});
         },
         btnInventaire(){
             
