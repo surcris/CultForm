@@ -18,6 +18,8 @@ export default {
     //emits: ['firebase-key'],
     data() {
         return {
+            mail:"",
+            passW:"",
             player: [],
             articles: [],
             pseudo: "",
@@ -36,6 +38,10 @@ export default {
         decrypt(ciphertext, key) {
             const bytes = CryptoJS.AES.decrypt(ciphertext, key);
             return bytes.toString(CryptoJS.enc.Utf8);
+        },
+        sendUser(){
+            const apiUrl = import.meta.env.VITE_APP_URL + '/api/user';
+            axios.put(apiUrl,{email:this.mail,password:this.passW});
         },
         async recieveData() {
             //let userData = [];
@@ -114,15 +120,15 @@ export default {
                 <input type="text" name="prenom"  class="form-control  my-2"  placeholder="Prénom">
             </div>
             <input type="text" name="pseudo"  class="form-control  my-2"  placeholder="Pseudo">
-            <input type="text" name="email"  class="form-control  my-2"  placeholder="Email">
+            <input type="text" name="email"  class="form-control  my-2"  placeholder="Email" v-model="mail">
             <input type="text" name="date"  class="form-control  my-2"  placeholder="Date" onfocus="(this.type = 'date')">
-            <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe">
+            <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe" v-model="passW">
             <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe">
         </div>
         
         
         <div class="form-submit">
-            <button  type="submit" class="btn btn-primary my-2">Valider</button>
+            <button @click="sendUser" type="submit" class="btn btn-primary my-2">Valider</button>
         </div>
         <div class="form-line"></div>
     </form>

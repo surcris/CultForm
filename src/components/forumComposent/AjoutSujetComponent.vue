@@ -12,7 +12,10 @@
              :disabled="!editor.can().chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
                 bold
             </button>
-            <editor-content  :editor="editor" />
+            <div :style="{ height: '400px' }">
+                <editor-content  :editor="editor"  />
+            </div>
+            
         </div>
         <div >
             
@@ -47,7 +50,7 @@ export default {
             ],
             editorProps: {
                 attributes: {
-                    class: 'prose',
+                    class: 'prose focus:outline-none break-all max-w-full h-full mt-2 ml-1 leading-4 leading-3',
                     
                 },
             },
@@ -60,6 +63,7 @@ export default {
 </script>
 
 <style scoped>
+
 .container_forum_ajout{
     box-sizing: border-box;
     width: 100%;
@@ -116,8 +120,6 @@ export default {
 }
 
 .ajout_sujet div {
-    
-    box-sizing: border-box;
-    border: 2px solid rgb(211, 0, 0);
+
 }
 </style>
