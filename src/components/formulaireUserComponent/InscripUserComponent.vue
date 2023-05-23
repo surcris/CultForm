@@ -18,8 +18,15 @@ export default {
     //emits: ['firebase-key'],
     data() {
         return {
-            mail:"",
-            passW:"",
+            infoUser:{
+                mail:null,
+                passW:null,
+                passWc:null,
+                nom:null,
+                prenom:null,
+                pseudo:null,
+                dateN:null,
+            },
             player: [],
             articles: [],
             pseudo: "",
@@ -39,9 +46,54 @@ export default {
             const bytes = CryptoJS.AES.decrypt(ciphertext, key);
             return bytes.toString(CryptoJS.enc.Utf8);
         },
-        sendUser(){
-            const apiUrl = import.meta.env.VITE_APP_URL + '/api/user';
-            axios.put(apiUrl,{email:this.mail,password:this.passW});
+        verifInfoForm(){
+            if (this.infoUser.nom != null && this.infoUser.prenom != null && this.infoUser.pseudo != null 
+            && this.infoUser.dateN != null&& this.infoUser.mail != null && this.infoUser.passW != null && this.infoUser.passWc != null) {
+                if (this.infoUser.passW == this.infoUser.passWc) {
+                    // console.log(this.infoUser.nom);
+                    // console.log(this.infoUser.prenom);
+                    // console.log(this.infoUser.pseudo);
+                    // console.log(this.infoUser.dateN);
+                    // console.log(this.infoUser.mail);
+                    // console.log(this.infoUser.passW);
+                    // console.log(this.infoUser.passWc);
+                    this.verifUser(this.infoUser)
+                    
+                }else{
+                    console.log('Les mots de passe saisis ne sont pas identique')
+                }
+                
+                
+            }else{
+                console.log('Veuillez remplire tous les champs')
+            }
+
+        },
+        verifUser(p_info){
+            const apiUrl = import.meta.env.VITE_APP_URL + '/api/user/addUserA';
+            axios.put(apiUrl,p_info)
+                .then(response => {
+                    console.log(response.data.message);
+                    this.sendUser(p_info);
+                })
+                .catch(error => {
+                    // Gérer les erreurs ici
+                    //console.log("error lors de la requete vers auth");
+                    console.error(error.response.data.message);
+                });
+        },
+        sendUser(p_info){
+            const apiUrl = import.meta.env.VITE_APP_URL + '/api/user/addUserR';
+            axios.put(apiUrl,p_info)
+                .then(response => {
+                    console.log(response.data.message);
+                    
+                })
+                .catch(error => {
+                    // Gérer les erreurs ici
+                    console.log("error lors de la requete vers realtime");
+                    console.error(error);
+                });
         },
         async recieveData() {
             //let userData = [];
@@ -116,19 +168,19 @@ export default {
     <form @submit.prevent="matchData">
         <div class="form-input" >
             <div class="form-input-div">
-                <input type="text" name="nom"  class="form-control  my-2"  placeholder="Nom">
-                <input type="text" name="prenom"  class="form-control  my-2"  placeholder="Prénom">
+                <input type="text" name="nom"  class="form-control  my-2"  placeholder="Nom" v-model="infoUser.nom">
+                <input type="text" name="prenom"  class="form-control  my-2"  placeholder="Prénom" v-model="infoUser.prenom">
             </div>
-            <input type="text" name="pseudo"  class="form-control  my-2"  placeholder="Pseudo">
-            <input type="text" name="email"  class="form-control  my-2"  placeholder="Email" v-model="mail">
-            <input type="text" name="date"  class="form-control  my-2"  placeholder="Date" onfocus="(this.type = 'date')">
-            <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe" v-model="passW">
-            <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe">
+            <input type="text" name="pseudo"  class="form-control  my-2"  placeholder="Pseudo" v-model="infoUser.pseudo">
+            <input type="text" name="email"  class="form-control  my-2"  placeholder="Email" v-model="infoUser.mail">
+            <input type="text" name="date"  class="form-control  my-2"  placeholder="Date" onfocus="(this.type = 'date')" v-model="infoUser.dateN">
+            <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe" v-model="infoUser.passW">
+            <input type="password" name="cmdp" class="form-control  my-2"  placeholder="Mot de passe" v-model="infoUser.passWc">
         </div>
         
         
         <div class="form-submit">
-            <button @click="sendUser" type="submit" class="btn btn-primary my-2">Valider</button>
+            <button @click="verifInfoForm" type="submit" class="btn btn-primary my-2">Valider</button>
         </div>
         <div class="form-line"></div>
     </form>
