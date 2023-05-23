@@ -17,6 +17,10 @@ export default {
     //emits: ['firebase-key'],
     data() {
         return {
+            infoUser:{
+                email:null,
+                password:null,
+            },
             player: [],
             articles: [],
             pseudo: "",
@@ -41,6 +45,19 @@ export default {
         },
         test(){
             console.log("TEST");
+        },
+        connectUser(){
+            const apiUrl = import.meta.env.VITE_APP_URL + '/api/user/connexionUser';
+            axios.put(apiUrl,this.infoUser)
+                .then(response => {
+                    console.log(response.data.message);
+                    
+                })
+                .catch(error => {
+                    // Gérer les erreurs ici
+                    console.log("error lors de la requete de connexion");
+                    console.error(error);
+                });
         },
         async matchData() {
             let l_key = '';
@@ -96,10 +113,10 @@ export default {
 
 <template>
     
-    <form @submit.prevent="matchData">
+    <form @submit.prevent="">
         <div class="form-input" >
-            <input type="text" name="email"  class="form-control  my-2"  placeholder="Email">
-            <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe">
+            <input type="text" name="email"  class="form-control  my-2"  placeholder="Email" v-model="infoUser.email">
+            <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe" v-model="infoUser.password">
         </div>
         <div class="form-check">
             <input type="checkbox" name="" id="">
@@ -107,7 +124,7 @@ export default {
         </div>
         
         <div class="form-submit">
-            <button  type="submit" class="btn btn-primary my-2">Valider</button>
+            <button @click="connectUser" type="submit" class="btn btn-primary my-2">Valider</button>
         </div>
         <div class="form-line"></div>
     </form>
