@@ -19,8 +19,8 @@ export default {
     data() {
         return {
             infoUser:{
-                mail:null,
-                passW:null,
+                email:null,
+                password:null,
                 passWc:null,
                 nom:null,
                 prenom:null,
@@ -38,6 +38,7 @@ export default {
         }
     },
     methods: {
+       
         encryptData(data) {
             const key = import.meta.env.VITE_APP_KEY;
             return CryptoJS.AES.encrypt(data, key).toString();
@@ -48,15 +49,10 @@ export default {
         },
         verifInfoForm(){
             if (this.infoUser.nom != null && this.infoUser.prenom != null && this.infoUser.pseudo != null 
-            && this.infoUser.dateN != null&& this.infoUser.mail != null && this.infoUser.passW != null && this.infoUser.passWc != null) {
-                if (this.infoUser.passW == this.infoUser.passWc) {
-                    // console.log(this.infoUser.nom);
-                    // console.log(this.infoUser.prenom);
-                    // console.log(this.infoUser.pseudo);
-                    // console.log(this.infoUser.dateN);
-                    // console.log(this.infoUser.mail);
-                    // console.log(this.infoUser.passW);
-                    // console.log(this.infoUser.passWc);
+            && this.infoUser.dateN != null&& this.infoUser.email != null && this.infoUser.password != null && this.infoUser.passWc != null) {
+                if (this.infoUser.password == this.infoUser.passWc) {
+                    
+                    
                     this.verifUser(this.infoUser)
                     
                 }else{
@@ -172,9 +168,9 @@ export default {
                 <input type="text" name="prenom"  class="form-control  my-2"  placeholder="Prénom" v-model="infoUser.prenom">
             </div>
             <input type="text" name="pseudo"  class="form-control  my-2"  placeholder="Pseudo" v-model="infoUser.pseudo">
-            <input type="text" name="email"  class="form-control  my-2"  placeholder="Email" v-model="infoUser.mail">
+            <input type="text" name="email"  class="form-control  my-2"  placeholder="Email" v-model="infoUser.email">
             <input type="text" name="date"  class="form-control  my-2"  placeholder="Date" onfocus="(this.type = 'date')" v-model="infoUser.dateN">
-            <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe" v-model="infoUser.passW">
+            <input type="password" name="mdp" class="form-control  my-2"  placeholder="Mot de passe" v-model="infoUser.password">
             <input type="password" name="cmdp" class="form-control  my-2"  placeholder="Mot de passe" v-model="infoUser.passWc">
         </div>
         
