@@ -10,10 +10,10 @@ import axios from 'axios'
 //dotenv.config({ path: '../../../.env' });
 
 export default {
-    props: {
-        joueur: Object,
-        thekey: Object,
-    },
+    // props: {
+    //     joueur: Object,
+    //     thekey: Object,
+    // },
     components: {
 
     },
@@ -55,46 +55,46 @@ export default {
             //onPressPeriod()
         },
 
-        async matchData() {
-            let l_key = '';
-            let l_found = false;
-            await axios.get(import.meta.env.VITE_APP_URL + '/api/data')
-                .then(response => {
-                    const decryptedData = this.decrypt(response.data, import.meta.env.VITE_APP_KEY);
-                    this.userData = JSON.parse(decryptedData);
+        // async matchData() {
+        //     let l_key = '';
+        //     let l_found = false;
+        //     await axios.get(import.meta.env.VITE_APP_URL + '/api/data')
+        //         .then(response => {
+        //             const decryptedData = this.decrypt(response.data, import.meta.env.VITE_APP_KEY);
+        //             this.userData = JSON.parse(decryptedData);
 
-                    for (const key in this.userData) {
-                        if (this.pseudo == this.userData[key].nom) {
-                            this.matchBool = true;
+        //             for (const key in this.userData) {
+        //                 if (this.pseudo == this.userData[key].nom) {
+        //                     this.matchBool = true;
 
-                            l_found = true;
-                            this.joueur.nom = this.pseudo;
+        //                     l_found = true;
+        //                     this.joueur.nom = this.pseudo;
 
-                            l_key = key
-                            console.log("SA MATCH");
-                        }
-                    }
-                    if (l_found) {
-                        //console.log(l_key);
-                        let l_crpKey = this.encryptData(l_key)
+        //                     l_key = key
+        //                     console.log("SA MATCH");
+        //                 }
+        //             }
+        //             if (l_found) {
+        //                 //console.log(l_key);
+        //                 let l_crpKey = this.encryptData(l_key)
 
-                        localStorage.setItem('key', l_crpKey)
-                        //Redirige vers la page game
-                        this.$router.push('/game');
+        //                 localStorage.setItem('key', l_crpKey)
+        //                 //Redirige vers la page game
+        //                 this.$router.push('/game');
 
-                    } else {
-                        this.matchBool = false;
-                        console.log("UnMatch");
-                    }
-                })
-                .catch(error => {
-                    // Gérer les erreurs ici
-                    console.log("error GET 1");
-                    console.error(error);
-                });
+        //             } else {
+        //                 this.matchBool = false;
+        //                 console.log("UnMatch");
+        //             }
+        //         })
+        //         .catch(error => {
+        //             // Gérer les erreurs ici
+        //             console.log("error GET 1");
+        //             console.error(error);
+        //         });
             
 
-        },
+        // },
 
     },
     mounted() {

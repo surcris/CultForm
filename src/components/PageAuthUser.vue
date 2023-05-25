@@ -81,8 +81,9 @@ export default {
         <ConnectComponentVue />
         <div class="redirect">
           <p> Créer un compte ?
-              <strong @click="changeFormMode" style="cursor: pointer;color: #01FF98;font-family: 'Kodchasan', sans-serif;font-style:normal;font-weight: 800;font-size: 23px;">
-                  </strong>
+              <strong @click="changeFormMode" style="cursor: pointer;color: #01FF98;
+              font-family: 'Kodchasan', sans-serif;font-style:normal;font-weight: 800;font-size: 23px;">
+              <router-link :to="{ name: 'authentificationUser', params: { mode: 'inscription' } }">Inscription</router-link></strong>
           </p>
           <p><a href="#">Impossible de se connecter ?</a> </p>
         </div>

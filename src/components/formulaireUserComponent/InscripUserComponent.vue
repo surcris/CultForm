@@ -19,6 +19,7 @@ export default {
     data() {
         return {
             infoUser:{
+                id:null,
                 email:null,
                 password:null,
                 passWc:null,
@@ -51,8 +52,7 @@ export default {
             if (this.infoUser.nom != null && this.infoUser.prenom != null && this.infoUser.pseudo != null 
             && this.infoUser.dateN != null&& this.infoUser.email != null && this.infoUser.password != null && this.infoUser.passWc != null) {
                 if (this.infoUser.password == this.infoUser.passWc) {
-                    
-                    
+
                     this.verifUser(this.infoUser)
                     
                 }else{
@@ -70,7 +70,10 @@ export default {
             axios.put(apiUrl,p_info)
                 .then(response => {
                     console.log(response.data.message);
+                    p_info.id = response.data.uid;
+                    
                     this.sendUser(p_info);
+                    this.$router.push('/authPersonnage');
                 })
                 .catch(error => {
                     // Gérer les erreurs ici
@@ -91,61 +94,7 @@ export default {
                     console.error(error);
                 });
         },
-        async recieveData() {
-            //let userData = [];
-            this.matchBool = true;
-            let l_key;
-            const apiUrl = import.meta.env.VITE_APP_URL + '/api/data';
-            let encryptedData = await axios.get(apiUrl);
-            let decryptedData = this.decrypt(encryptedData.data, import.meta.env.VITE_APP_MYKEY);
-            let userData = JSON.parse(decryptedData);
-
-            for (const key in userData) {
-                console.log(key);
-                if (userData[key].nom === this.pseudo) {
-                    console.log("Pseudo déjà utilisé");
-                    this.matchBool = false;
-                    break;
-                }
-            }
-            
-
-            if (this.matchBool) {
-                this.joueur.resetPerso();
-                this.joueur.nom = this.pseudo;
-                this.createPlayer(this.joueur);
-
-                encryptedData = await axios.get(apiUrl);
-                decryptedData = this.decrypt(encryptedData.data, import.meta.env.VITE_APP_MYKEY);
-                userData = JSON.parse(decryptedData);
-
-                //console.log("================");
-                for (const key in userData) {
-                    //console.log(key);
-                    if (userData[key].nom === this.pseudo) {
-                        l_key = key;
-                    }
-                }
-                console.log(l_key);
-                const encryptedKey = this.encryptData(l_key);
-                localStorage.setItem('key', encryptedKey);
-                this.$router.push('/game');
-            }
-            
-
-            
-        },
         
-        createPlayer(newPlayer) {
-            //joueurDataServices.create(newPlayer)
-            axios.put(import.meta.env.VITE_APP_URL + '/api/data/', newPlayer)
-                .then(() => {
-                    console.log('Article Crée avec Succès !');
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
        
 
     },

@@ -50,8 +50,10 @@ export default {
             const apiUrl = import.meta.env.VITE_APP_URL + '/api/user/connexionUser';
             axios.put(apiUrl,this.infoUser)
                 .then(response => {
-                    console.log(response.data.message);
-                    
+                    //console.log(response.data.message);
+                    sessionStorage.setItem("akey", response.data.message);
+                    //localStorage.setItem('akey', response.data.message)
+                    this.$router.push('/authPersonnage');
                 })
                 .catch(error => {
                     // Gérer les erreurs ici
@@ -59,46 +61,7 @@ export default {
                     console.error(error);
                 });
         },
-        async matchData() {
-            let l_key = '';
-            let l_found = false;
-            await axios.get(import.meta.env.VITE_APP_URL + '/api/data')
-                .then(response => {
-                    const decryptedData = this.decrypt(response.data, import.meta.env.VITE_APP_MYKEY);
-                    this.userData = JSON.parse(decryptedData);
-
-                    for (const key in this.userData) {
-                        if (this.pseudo == this.userData[key].nom) {
-                            this.matchBool = true;
-
-                            l_found = true;
-                            this.joueur.nom = this.pseudo;
-
-                            l_key = key
-                            console.log("SA MATCH");
-                        }
-                    }
-                    if (l_found) {
-                        //console.log(l_key);
-                        let l_crpKey = this.encryptData(l_key)
-
-                        localStorage.setItem('key', l_crpKey)
-                        //Redirige vers la page game
-                        this.$router.push('/game');
-
-                    } else {
-                        this.matchBool = false;
-                        console.log("UnMatch");
-                    }
-                })
-                .catch(error => {
-                    // Gérer les erreurs ici
-                    console.log("error GET 1");
-                    console.error(error);
-                });
-            
-
-        },
+        
 
     },
     mounted() {

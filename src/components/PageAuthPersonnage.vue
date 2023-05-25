@@ -79,7 +79,7 @@ export default {
     <HeaderComponent/>
     <div class="main">
       
-        <ConnectComponentVue :joueur="joueur" :thekey="thekey" />
+        <ConnectComponentVue  />
         <!--<div class="form-group text-center">
            <button @click="changeFormMode" class="btn btn-primary my-2">Inscription</button> 
           <small @click="changeFormMode" id="emailHelp" class="form-text text-right ">Inscription</small>
