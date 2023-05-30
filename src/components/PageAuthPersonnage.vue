@@ -5,8 +5,11 @@ import InscipComponent from './formulairePersonnageComponent/InscipComponent.vue
 import ConnectComponentVue from './formulairePersonnageComponent/ConnectComponent.vue';
 import HeaderComponent from './HeaderComponent.vue';
 import axios from 'axios'
+import CryptoJS from 'crypto-js';
 import { player } from '../class/personnage';
 import { thekey } from '../class/myKey';
+import Personnage from '../class/personnage';
+
 
 export default {
   components: {
@@ -20,12 +23,24 @@ export default {
       joueur: player,
       formMode: true,
       thekey:thekey,
+      etatAuth:false,
+      listPerso:[],
     }
   },
  
   methods: {
-    changeFormMode() {
-      this.formMode = !this.formMode;
+    encryptData(data) {
+      const key = import.meta.env.VITE_APP_KEY;
+
+      return CryptoJS.AES.encrypt(data, key).toString();
+    },
+    decryptData(ciphertext) {
+      const key = import.meta.env.VITE_APP_KEY;
+      const bytes = CryptoJS.AES.decrypt(ciphertext, key);
+      return bytes.toString(CryptoJS.enc.Utf8);
+    },
+    changeEtatAuth() {
+      this.etatAuth = !this.etatAuth;
     },
     signInButtonPressed(e) {
       console.log("Sign In Button Pressed");
@@ -52,12 +67,48 @@ export default {
       }
       return visitorId;
     },
-    // onFirebaseKey(key) {
-    //   this.firebaseKey = key;
-    // },
-    // getKey() {
-    //   console.log(this.firebaseKey)
-    // }
+    play(pseudo){
+      let l_perso
+      
+      for (let index = 0; index < this.listPerso.length; index++) {
+        console.log(this.listPerso[index].pseudo);
+        if (pseudo == this.listPerso[index].pseudo) {
+          this.$emit('sendPersonnage', this.listPerso[index]);
+          this.$router.push({ name: 'game'});
+        }else{
+          console.log('Erreur du bouton play');
+        }
+      }
+      // this.$emit('sendPersonnage', personnage);
+      // this.$router.push({ name: 'game'});
+    },
+    envoiPerso(personnage){
+      //personnage.display()
+      //console.log(personnage)
+      this.$emit('sendPersonnage', personnage);
+    },
+    async getAllPersonnnage() {
+      
+      let key = this.decryptData(sessionStorage.getItem('akey'))
+      await axios.get(import.meta.env.VITE_APP_URL+ '/api/perso/'+key)
+        .then((response) => {
+          const objet = JSON.parse(response.data);
+          console.log(typeof objet);
+          objet.forEach(element => {
+            let l_perso = new Personnage('','','');
+            // Copie des propriétés de element vers l_perso
+            Object.assign(l_perso, element);
+            
+            this.listPerso.push(l_perso)
+            console.log(this.listPerso);
+          });
+         
+        })
+        .catch((error) => {
+
+        })
+
+    }
   },
   async created(){
     //recupere les data de la page http://localhost:3001/api/data et les met dans userData 
@@ -66,7 +117,7 @@ export default {
     this.newVisitor();
   },
   mounted(){
-    
+    this.getAllPersonnnage();
   }
   
 }
@@ -75,27 +126,34 @@ export default {
 
 
 <template>
-  <div id="div-body">
-    <HeaderComponent/>
-    <div class="main">
-      
-        <ConnectComponentVue  />
-        <!--<div class="form-group text-center">
-           <button @click="changeFormMode" class="btn btn-primary my-2">Inscription</button> 
-          <small @click="changeFormMode" id="emailHelp" class="form-text text-right ">Inscription</small>
-        </div>-->
+    <div id="div-body">
+      <HeaderComponent/>
+      <div class="main">
+        <div class="persolist">
+          <div class="persolist-container">
+              <div class="persolist-container-perso-nouveau" @click="changeEtatAuth">
+                  <p>Nouveau Personnage +</p>
+              </div>
+              <div v-for="perso in listPerso" class="persolist-container-perso">
+                  <div class="persolist-container-perso-detail">
+                      <p>{{ perso.pseudo }}</p>
+                      <p>{{ perso.niveau }}</p>
+                  </div>
+                  <div class="persolist-container-perso-play">
+                      <div @click="play(perso.pseudo)"><i class="fa-solid fa-play"></i></div>
+                    
+                  </div>
+              </div>
+          </div>
+      </div>
 
-        <!--<InscipComponent :joueur="joueur" />
-        <div class="form-group text-center">
-           <button @click="changeFormMode" class="btn btn-primary my-2">Connexion</button> 
-          <small @click="changeFormMode" id="emailHelp" class="form-text text-right ">Connexion</small>
-        </div>-->
-
+      <ConnectComponentVue v-if="etatAuth == false"/>
+      <InscipComponent @sendToApp="envoiPerso" v-if="etatAuth == true"/>
      
-    </div>
+      </div>
       
  
-  </div>
+    </div>
 
 </template>
 
@@ -115,6 +173,156 @@ export default {
     display: flex;
     flex-direction: row;
 }
+.persolist{
+    height: 100%;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.persolist-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #2c0d2c;
+    border-radius: 5px;
+    width: 90%;
+    height: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.persolist-container::-webkit-scrollbar {
+    display: none;
+}
+.persolist-container-perso {
+    padding: 5px 0px;
+    margin: 5px 0px;
+    background: #421442;
+    border: 1px solid #ffffff47;
+    border-radius: 5px;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.persolist-container-perso p , .persolist-container-perso-nouveau p{
+    color: #fdfdfd;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 5px 5px ;
+}
+.persolist-container-perso p{
+    color: #fdfdfd;
+}
+.persolist-container-perso-nouveau{
+    cursor: pointer;
+    margin: 5px 0px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #FFFFFF;
+    border-radius: 5px;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.persolist-container-perso-detail{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.persolist-container-perso-play{
+    width: 20%;
+    
+}
+.persolist-container-perso-play div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.persolist-container-perso-play i::before{
+    height: auto;
+    width: auto;
+    font-size: 30px;
+    
+    padding: 7px 5px;
+    padding-left: 7px;
+    border-radius: 100%;
+    padding-right: 2px;
+    color: #130513;
+    display: flex;
+    justify-content: center;
+    background-color: #421442;
+    border: #16071612 1px solid;
+    /* box-shadow: 0px 0px 3px 2px #611e61; */
+    box-shadow:  5px 5px 25px #1f091f,
+             -5px -5px 25px #651f65;
+}
+
+.persolist-container-perso-play i{
+    height: 45px;
+    width: 45px;
+    padding: 2px 5px;
+
+}
+@media screen and (max-width: 800px) {
+    .persolist{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .persolist-container{
+       
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: center;
+        
+        border-radius: 5px;
+        width: 400px;
+        height: 80%;
+        
+    }
+    .persolist-container-perso {
+        margin: 5px 5px;
+        width: 90%;
+        
+    }
+    .persolist-container-perso-nouveau{
+        margin: 5px 5px;
+        width: auto;
+    }
+    
+
+}
+@media screen and (max-width: 500px) {
+    .persolist-container{
+        
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: center;
+        
+        border-radius: 5px;
+        width: 80%;
+        height: 90%;
+        overflow:scroll;
+    }
+   
+    
+    .persolist-container-perso {
+        margin: 5px 5px;
+        width: 90%;
+        
+    }
+   
+}
+
 
 @media screen and (max-width: 800px){
   .main{

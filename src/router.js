@@ -31,7 +31,8 @@ const routes =  [
     {
         path: "/game",
         name: "game",
-        component: () => import("./components/PageGame.vue")
+        component: () => import("./components/PageGame.vue"),
+        props:true
     },
     // {
     //     name:'Forum',

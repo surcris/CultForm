@@ -10,17 +10,17 @@
             
             <div v-if="displayStatBool"  class="stats-info">
                 <div class="infoPlayer">
-                    <!-- {{ nom }} : {{ valeur }} -->
-                    <div class="nom-joueur">{{ joueur.nom }} </div>
+                    
+                    <div class="nom-joueur">{{ joueur.pseudo }} </div>
                     
                 </div>
                 <div class="infoPlayer">
-                    <!-- {{ nom }} : {{ valeur }} -->
+                    
                     <div>Niveau </div>
-                    <div>{{ joueur.niveau }} </div>
+                    <div> {{ joueur.getDomaine() }} {{ joueur.niveau }}</div>
                 </div>
                 <div class="infoXp">
-                    <!-- {{ nom }} : {{ valeur }} -->
+                    
                     <div>Expérience </div>
                     <div>{{ joueur.xp }} / {{ joueur.expLvl }}</div>
                     
@@ -29,12 +29,12 @@
             </div>
             <div v-if="displayStatBool"  class="stats-elementaire">
                 <div class="elementaire">
-                    <!-- {{ nom }} : {{ valeur }} -->
+                    
                     <div>Vie  </div>
                     <div>{{ joueur.vieAct }} / {{ joueur.vieMax }}</div>
                 </div>
                 <div class="elementaire" v-for="(valeur,nom) in joueurInfo.stats">
-                    <!-- {{ nom }} : {{ valeur }} -->
+                    
                     <div>{{ nom }} </div>
                     <div>{{ valeur }}</div>
                 </div>
@@ -42,7 +42,7 @@
             </div>
             <div v-if="displayStatBool"  class="stats-dommage">
                 <div class="dommage" v-for="(valeur,nom) in joueurInfo.puissances">
-                    <!-- {{ nom }} : {{ valeur }} -->
+                    
                     <p>{{ nom }} </p>
                     <div>{{ valeur }}</div>
                 </div>
@@ -50,7 +50,7 @@
             </div>
             <div v-if="displayStatBool"  class="stats-resistance">
                 <div class="resistance" v-for="(valeur,nom) in joueurInfo.resistances">
-                    <!-- {{ nom }} : {{ valeur }} -->
+                    
                     <p>{{ nom }} </p>
                     <div>{{ valeur }}</div>
                 </div>
@@ -102,7 +102,7 @@ ChartJS.register(
 )
 
 export default{
-    props: ['joueur','adversaireCarre',"myKey"],
+    props: ['joueur'],
     components: {
         
     },
@@ -319,24 +319,27 @@ export default{
            
            ctx.fillText(texte, x,y);
        },
+       updateInfoJoueur(){
+            this.joueurInfo.resistances["Resistance Air"] = this.joueur.resAir;
+            this.joueurInfo.resistances["Resistance Eau"] = this.joueur.resEau;
+            this.joueurInfo.resistances["Resistance Feu"] = this.joueur.resFeu;
+            this.joueurInfo.resistances["Resistance Terre"] = this.joueur.resTerre;
+            this.joueurInfo.resistances["Resistance Brut"] = this.joueur.resBrut;
+
+            this.joueurInfo.puissances["Puissance"] = this.joueur.puissance;
+            this.joueurInfo.puissances["Dommage"] = this.joueur.dommage;
+
+            this.joueurInfo.stats["Air"] = this.joueur.air;
+            this.joueurInfo.stats["Feu"] = this.joueur.feu;
+            this.joueurInfo.stats["Terre"] = this.joueur.terre;
+            this.joueurInfo.stats["Eau"] = this.joueur.eau;
+       }
     },
     mounted(){
         // const ctx = document.getElementById('statsCanvas');
         // new Chart(ctx, this.planetChartData);
-
-        this.joueurInfo.resistances["Resistance Air"] = this.joueur.resAir;
-        this.joueurInfo.resistances["Resistance Eau"] = this.joueur.resEau;
-        this.joueurInfo.resistances["Resistance Feu"] = this.joueur.resFeu;
-        this.joueurInfo.resistances["Resistance Terre"] = this.joueur.resTerre;
-        this.joueurInfo.resistances["Resistance Brut"] = this.joueur.resBrut;
-
-        this.joueurInfo.puissances["Puissance"] = this.joueur.puissance;
-        this.joueurInfo.puissances["Dommage"] = this.joueur.dommage;
-
-        this.joueurInfo.stats["Air"] = this.joueur.air;
-        this.joueurInfo.stats["Feu"] = this.joueur.feu;
-        this.joueurInfo.stats["Terre"] = this.joueur.terre;
-        this.joueurInfo.stats["Eau"] = this.joueur.eau;
+        this.updateInfoJoueur();
+        
     },
     watch:{
        
@@ -360,20 +363,7 @@ export default{
         'joueur': {
             handler: function() {
                 
-
-                this.joueurInfo.resistances["Resistance Air"] = this.joueur.resAir;
-                this.joueurInfo.resistances["Resistance Eau"] = this.joueur.resEau;
-                this.joueurInfo.resistances["Resistance Feu"] = this.joueur.resFeu;
-                this.joueurInfo.resistances["Resistance Terre"] = this.joueur.resTerre;
-                this.joueurInfo.resistances["Resistance Brut"] = this.joueur.resBrut;
-
-                this.joueurInfo.puissances["Puissance"] = this.joueur.puissance;
-                this.joueurInfo.puissances["Dommage"] = this.joueur.dommage;
-
-                this.joueurInfo.stats["Air"] = this.joueur.air;
-                this.joueurInfo.stats["Feu"] = this.joueur.feu;
-                this.joueurInfo.stats["Terre"] = this.joueur.terre;
-                this.joueurInfo.stats["Eau"] = this.joueur.eau;
+                this.updateInfoJoueur();
                 
                 if (this.myKey != 0) {
 
@@ -483,7 +473,7 @@ export default{
 }
 
 .stats-info div div:nth-child(2) {
-    width: 60%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;

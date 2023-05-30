@@ -1,6 +1,6 @@
 <template>
     <div class="perso">
-        <canvas id="Canvas" width="400" height="400"></canvas>
+        <canvas id="canvasPerso" ></canvas>
     </div>
 </template>
 
@@ -54,26 +54,17 @@ export default{
             ctx.fillText(pourcentageVie, xTexte, yTexte);
         },
         textCanvas(ctx,texte,x,y,size){
+            
+            
             ctx.fillStyle = 'white';
             ctx.font = size+'px sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             
-
+            
             ctx.fillText(texte, x/2,y);
         },
-        cercle(canvas,ctx,radius,player){
-            const divCanvas = 8;
-            const circleX = canvas.width / 2;
-            const circleY = canvas.height / 2;
-            
-            ctx.clearRect(0, 0, canvas.width, canvas.width/8);
-
-            ctx.beginPath();
-            ctx.lineWidth = 2;
-            ctx.arc(circleX, circleY, radius, 0, 2 * Math.PI, false);
-            ctx.strokeStyle = "blue";
-            ctx.stroke();
+        cercle(canvas, ctx, radius, player) {
 
             // ctx.beginPath();
             // ctx.rect(canvas.width/divCanvas, canvas.height - (canvas.height/(divCanvas-2)),(canvas.width/divCanvas)*(divCanvas-2), canvas.height/divCanvas);
@@ -81,24 +72,39 @@ export default{
             // ctx.strokeStyle = "red";
             // ctx.stroke();
 
-            //effacer le texte précédent
-            ctx.clearRect(canvas.width/6, 0,(canvas.width/divCanvas)*(divCanvas-2), canvas.height/divCanvas);
-            
-            //afficher le nouveau texte
-            this.textCanvas(ctx,player.nom+" "+player.niveau,canvas.width, canvas.height/10,20);
+            const divCanvas = 8;
+            const circleX = canvas.width / 2;
+            const circleY = canvas.height / 2;
 
-            
+            // Effacer le contenu précédent du canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dessiner le cercle
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.arc(circleX, circleY, radius, 0, 2 * Math.PI, false);
+            ctx.strokeStyle = "blue";
+            ctx.stroke();
+
+            // Dessiner le texte
+            this.textCanvas(ctx, player.pseudo + " " + player.getNiveau(), canvas.width, canvas.height / 10, 20);
+            this.textCanvas(ctx, player.getDomaine(), canvas.width, (canvas.height / 10) * 2, 20);
         },
     },
     mounted(){
-        const canvasPlayer = document.getElementById("Canvas");
+        const canvasPlayer = document.getElementById("canvasPerso");
         const ctxPlayer = canvasPlayer.getContext("2d");
+        const dpr = window.devicePixelRatio || 1;
+        canvasPlayer.width = 450 * dpr;
+        canvasPlayer.height = 450 * dpr;
         this.joueur.canvasP = canvasPlayer;
         this.joueur.ctxP = ctxPlayer;
-        this.cercle(this.joueur.canvasP,this.joueur.ctxP,50,this.joueur);
+
+        ctxPlayer.imageSmoothingEnabled = false;
+        this.cercle(canvasPlayer,ctxPlayer,50,this.joueur);
 
         setInterval(() => {
-            this.barreXp(this.joueur.canvasP,this.joueur.ctxP,this.joueur);
+            this.barreXp(canvasPlayer,ctxPlayer,this.joueur);
         }, 100);
 
         setInterval(() => {

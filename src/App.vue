@@ -3,6 +3,21 @@
 import PageGame from './components/PageGame.vue'
 import PageAuthPerso from './components/PageAuthPersonnage.vue';
 import NotFound from './components/NotFound.vue';
+
+export default {
+  data() {
+    return{
+      personnage:null,
+    }
+    
+  },
+  methods: {
+    initPersonnage(personnage){
+      this.personnage = personnage;
+      this.personnage.display();
+    }
+  }
+}
 </script>
 
 <template>
@@ -15,7 +30,9 @@ import NotFound from './components/NotFound.vue';
   <!-- <PageInscription/> -->
   <!-- <NotFound/> -->
   <!-- <HelloWorld msg="Vite + Vue" /> -->
-  <router-view/>
+
+  <!-- v-bind pour lier la propriété personnage -->
+  <router-view :personnage="personnage" @sendPersonnage="initPersonnage"/>
 </template>
 
 <style scoped>

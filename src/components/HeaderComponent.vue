@@ -1,11 +1,12 @@
 <script >
+import axios from 'axios';
 export default {
     props:['headermode'],
-    // data(){
-    //     return{
-
-    //     }
-    // },
+    data(){
+        return{
+            myKey:null,
+        }
+    },
     methods: {
         goToInscrip(){
             this.$router.push({ name: 'authentificationUser', params: { mode: 'inscription' } });
@@ -22,6 +23,35 @@ export default {
             //location.reload();
 
         },
+        async deconection(){
+            await axios.put(import.meta.env.VITE_APP_URL + '/api/user/deconnexion')
+                .then((response) => {
+                    console.log(response.data.message)
+                    sessionStorage.removeItem('akey');
+                    this.getSessionKey();
+                })
+                .catch((error) => {
+                    console.log("error lors de la requete de connexion");
+                    console.error(error);
+                })
+
+        },
+        getSessionKey(){
+
+            if(sessionStorage.getItem('akey')){
+                this.myKey = sessionStorage.getItem('akey');
+                
+            }else{
+                this.myKey = null;
+            }
+        }
+    },
+    unmounted(){
+        
+    },
+    mounted(){
+        this.getSessionKey();
+        //console.log(this.myKey)
     }
 }
 </script>
@@ -33,12 +63,12 @@ export default {
         <div class="header-accueil">
             <router-link :to="{ name: 'accueil' }">ACCUEIL</router-link>
         </div>
-        <div class="header-demo" v-if="headermode != '3'">
-            <router-link :to="{ name: 'game' }">DEMO</router-link>
-        </div>
         <!--<div class="header-demo" v-if="headermode != '3'">
-            <router-link :to="{ name: 'authPersonnage' }">DEMO</router-link>
+            <router-link :to="{ name: 'game' }">DEMO</router-link>
         </div>-->
+        <div class="header-demo" v-if="headermode != '3'">
+            <router-link :to="{ name: 'authPersonnage' }">DEMO</router-link>
+        </div>
         <div class="header-forum" v-if="headermode != '2'">
             <router-link :to="{ name: 'Forum', params: { modeForum: 'home' } }">FORUM</router-link>
         </div>
@@ -49,9 +79,13 @@ export default {
                 <i class="fa-solid fa-user"></i>
             </div>
             <div class="header-compte-dropdown">
-                <div class="header-compte-dropdown-menu">
+                <div v-if="myKey==null" class="header-compte-dropdown-menu">
                     <div><a @click="goToConnect">Connexion</a></div>
                     <div><a @click="goToInscrip">Inscription</a></div>
+                </div>
+                <div v-else="" class="header-compte-dropdown-menu">
+                    <div><a @click="deconection">Déconnexion</a></div>
+                    
                 </div>
             
             </div>
@@ -138,7 +172,7 @@ header{
 }
 .header-compte-dropdown-menu{
     cursor: pointer;
-    width: 60%;
+    width: 100%;
     background-color: #4D194D;
     border-radius: 5px;
     position: relative;

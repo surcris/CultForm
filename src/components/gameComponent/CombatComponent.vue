@@ -137,7 +137,7 @@ export default{
             ctx.clearRect(canvas.width/6, 0,(canvas.width/divCanvas)*(divCanvas-2), canvas.height/divCanvas);
             
             //afficher le nouveau texte
-            this.textCanvas(ctx,player.nom+" "+player.niveau,canvas.width, canvas.height/10,20);
+            this.textCanvas(ctx,player.pseudo+" "+player.niveau,canvas.width, canvas.height/10,20);
 
             
         },
@@ -168,7 +168,7 @@ export default{
             //effacer le texte précédent
             ctx.clearRect(canvas.width/6, 0,(canvas.width/divCanvas)*(divCanvas-2), canvas.height/divCanvas);
             //afficher le nouveau texte
-            this.textCanvas(ctx,player.nom+" "+player.niveau,canvas.width, canvas.height/10,20);
+            this.textCanvas(ctx,player.pseudo+" "+player.niveau,canvas.width, canvas.height/10,20);
             
         },
         reset(){
