@@ -28,7 +28,9 @@ export default {
                 .then((response) => {
                     console.log(response.data.message)
                     sessionStorage.removeItem('akey');
+                    sessionStorage.removeItem('uPlt');
                     this.getSessionKey();
+                    this.$router.push({ name: 'accueil'});
                 })
                 .catch((error) => {
                     console.log("error lors de la requete de connexion");

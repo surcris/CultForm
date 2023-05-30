@@ -121,14 +121,14 @@ export default {
   created() {
     
     const m_Session = sessionStorage.getItem("uPlt")
-    console.log(m_Session);
+    //console.log(m_Session);
     if (m_Session) {
       this.joueur = new Personnage('','','')
       const sessionData = JSON.parse(m_Session);
       Object.assign(this.joueur, sessionData);
     }
     
-    console.log(this.joueur)
+    //console.log(this.joueur)
   }
 }
 
