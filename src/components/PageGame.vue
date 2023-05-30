@@ -119,15 +119,19 @@ export default {
     
   },
   created() {
-    
-    const m_Session = sessionStorage.getItem("uPlt")
-    //console.log(m_Session);
+
+    const m_Session = sessionStorage.getItem("uPlt");
     if (m_Session) {
-      this.joueur = new Personnage('','','')
+      this.joueur = new Personnage('', '', '');
       const sessionData = JSON.parse(m_Session);
       Object.assign(this.joueur, sessionData);
+    } else {
+      
+      this.$router.push({ name: 'authPersonnage' });
+      return; // Arrête l'exécution de la méthode après la redirection
     }
-    
+
+
     //console.log(this.joueur)
   }
 }
@@ -136,7 +140,7 @@ export default {
 
 <template>
   <div id="div-body">
-    <div v-if="demo == false" class="container">
+    <div v-if="demo == false && joueur" class="container">
       <StatsComponent :joueur="joueur" />
       <PersoComponent :joueur="joueur" />
       <OptionPersoComponent :joueur="joueur" />

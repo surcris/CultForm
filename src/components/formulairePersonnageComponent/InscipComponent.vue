@@ -68,7 +68,8 @@ export default {
                     console.log(responce.data.message);
 
                     this.$emit('sendToApp',this.personnage)
-
+                    const l_pe = JSON.stringify(this.personnage)
+                    sessionStorage.setItem("uPlt", l_pe);
                     this.$router.push({ name: 'game'});
                 })
                 .catch(error => {

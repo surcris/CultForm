@@ -25,6 +25,7 @@ export default {
       thekey:thekey,
       etatAuth:false,
       listPerso:[],
+      whoP:null,
     }
   },
  
@@ -114,16 +115,29 @@ export default {
 
         })
 
+    },
+    setWhoP(pseudo){
+
+      for (let index = 0; index < this.listPerso.length; index++) {
+        if (this.listPerso[index].pseudo == pseudo) {
+          this.whoP = index;
+          console.log(index)
+        }
+        
+        
+      }
     }
   },
-  async created(){
+  created(){
+    this.getAllPersonnnage();
     //recupere les data de la page http://localhost:3001/api/data et les met dans userData 
     //this.userData = await axios.get(import.meta.env.VITE_APP_URL+'/api/data');
     //console.log(this.userData.data);
-    this.newVisitor();
+    //this.newVisitor();
+    
   },
   mounted(){
-    this.getAllPersonnnage();
+    //this.getAllPersonnnage();
   }
   
 }
@@ -141,7 +155,7 @@ export default {
                   <p>Nouveau Personnage +</p>
               </div>
               <div v-for="perso in listPerso" class="persolist-container-perso">
-                  <div class="persolist-container-perso-detail">
+                  <div @click="setWhoP(perso.pseudo)" class="persolist-container-perso-detail">
                       <p>{{ perso.pseudo }}</p>
                       <p>{{ perso.niveau }}</p>
                   </div>
@@ -153,7 +167,7 @@ export default {
           </div>
       </div>
 
-      <ConnectComponentVue v-if="etatAuth == false"/>
+      <ConnectComponentVue :listJoueur="listPerso" :selectP="whoP" v-if="etatAuth == false"/>
       <InscipComponent @sendToApp="envoiPerso" v-if="etatAuth == true"/>
      
       </div>

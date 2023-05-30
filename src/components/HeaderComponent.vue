@@ -68,11 +68,15 @@ export default {
         <!--<div class="header-demo" v-if="headermode != '3'">
             <router-link :to="{ name: 'game' }">DEMO</router-link>
         </div>-->
-        <div class="header-demo" v-if="headermode != '3'">
+        <div class="header-demo" v-if="myKey ==null">
             <router-link :to="{ name: 'authPersonnage' }">DEMO</router-link>
         </div>
+        
         <div class="header-forum" v-if="headermode != '2'">
             <router-link :to="{ name: 'Forum', params: { modeForum: 'home' } }">FORUM</router-link>
+        </div>
+        <div class="header-demo" v-if="myKey">
+            <router-link :to="{ name: 'game' }">JOUER</router-link>
         </div>
         <div class="header-compte" v-if="headermode != '1'"> 
             <div class="header-compte-button">
