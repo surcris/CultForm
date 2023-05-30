@@ -68,19 +68,25 @@ export default {
       return visitorId;
     },
     play(pseudo){
-      let l_perso
+      let l_perso = null;
       
       for (let index = 0; index < this.listPerso.length; index++) {
-        console.log(this.listPerso[index].pseudo);
+        //console.log(this.listPerso[index].pseudo,":",pseudo);
         if (pseudo == this.listPerso[index].pseudo) {
-          this.$emit('sendPersonnage', this.listPerso[index]);
-          this.$router.push({ name: 'game'});
-        }else{
-          console.log('Erreur du bouton play');
+          l_perso = this.listPerso[index];
+          
         }
       }
-      // this.$emit('sendPersonnage', personnage);
-      // this.$router.push({ name: 'game'});
+      if (l_perso) {
+        const l_pe = JSON.stringify(l_perso)
+        sessionStorage.setItem("uPlt", l_pe);
+        this.$emit('sendPersonnage', l_perso);
+        this.$router.push({ name: 'game'});
+      }else{
+        console.log("Erreur du bouton Play");
+      }
+      
+      
     },
     envoiPerso(personnage){
       //personnage.display()
@@ -93,14 +99,14 @@ export default {
       await axios.get(import.meta.env.VITE_APP_URL+ '/api/perso/'+key)
         .then((response) => {
           const objet = JSON.parse(response.data);
-          console.log(typeof objet);
+          //console.log(typeof objet);
           objet.forEach(element => {
             let l_perso = new Personnage('','','');
             // Copie des propriétés de element vers l_perso
             Object.assign(l_perso, element);
             
             this.listPerso.push(l_perso)
-            console.log(this.listPerso);
+            //console.log(this.listPerso);
           });
          
         })

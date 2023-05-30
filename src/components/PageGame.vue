@@ -31,7 +31,7 @@ export default {
       joueurDemo: new Personnage("Demo",'cercle'),
       adversaire: new Personnage("Ennemie",'cercle'),
       gameBool: false,
-      demo:true,
+      demo:false,
       
     }
   },
@@ -75,9 +75,15 @@ export default {
     // },
   },
   mounted() {
-    this.joueur = this.personnage;
-    this.joueur.display();
-    console.log('existe');
+    
+    // if (this.personnage) {
+    //   console.log("Personnage")
+    //   this.joueur = this.personnage;
+    // }
+    
+    
+    //this.joueur.display();
+    //console.log('existe');
     // if (this.personnage) {
     //   this.joueur = this.personnage;
     //   console.log('existe');
@@ -114,7 +120,15 @@ export default {
   },
   created() {
     
-
+    const m_Session = sessionStorage.getItem("uPlt")
+    console.log(m_Session);
+    if (m_Session) {
+      this.joueur = new Personnage('','','')
+      const sessionData = JSON.parse(m_Session);
+      Object.assign(this.joueur, sessionData);
+    }
+    
+    console.log(this.joueur)
   }
 }
 
