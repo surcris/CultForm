@@ -71,7 +71,7 @@ export default {
                 .then(response => {
                     console.log(response.data.message);
                     p_info.id = response.data.uid;
-                    
+                    sessionStorage.setItem("akey", response.data.uid);
                     this.sendUser(p_info);
                     this.$router.push('/authPersonnage');
                 })

@@ -69,7 +69,7 @@ export default {
             <router-link :to="{ name: 'game' }">DEMO</router-link>
         </div>-->
         <div class="header-demo" v-if="myKey ==null">
-            <router-link :to="{ name: 'authPersonnage' }">DEMO</router-link>
+            <router-link :to="{ name: 'game' }">DEMO</router-link>
         </div>
         
         <div class="header-forum" v-if="headermode != '2'">
@@ -90,6 +90,7 @@ export default {
                     <div><a @click="goToInscrip">Inscription</a></div>
                 </div>
                 <div v-else="" class="header-compte-dropdown-menu">
+                    <div><router-link :to="{ name: 'authPersonnage' }">Personnage</router-link></div>
                     <div><a @click="deconection">Déconnexion</a></div>
                     
                 </div>

@@ -17,7 +17,10 @@
                 <div class="infoPlayer">
                     
                     <div>Niveau </div>
-                    <div> {{ joueur.getDomaine() }} {{ joueur.niveau }}</div>
+                    <div>
+                        <div> {{ joueur.getDomaine() }} </div>
+                        <div> {{ joueur.niveau }} </div>
+                    </div>
                 </div>
                 <div class="infoXp">
                     
@@ -469,6 +472,15 @@ export default{
 .stats-elementaire div div:nth-child(1),
 .stats-info div div:nth-child(1) {
     margin-left: 2%;
+
+}
+
+.stats-info div:nth-child(2) {
+    display: flex;
+    align-items: center;
+}
+.stats-info div:nth-child(2) div:nth-child(2) div:nth-child(2){
+    width: fit-content;
 
 }
 
