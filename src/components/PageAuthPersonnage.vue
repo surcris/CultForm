@@ -90,8 +90,7 @@ export default {
       
     },
     envoiPerso(personnage){
-      //personnage.display()
-      //console.log(personnage)
+
       this.$emit('sendPersonnage', personnage);
     },
     async getAllPersonnnage() {
@@ -100,14 +99,14 @@ export default {
       await axios.get(import.meta.env.VITE_APP_URL+ '/api/perso/'+key)
         .then((response) => {
           const objet = JSON.parse(response.data);
-          //console.log(typeof objet);
+
           objet.forEach(element => {
             let l_perso = new Personnage('','','');
             // Copie des propriétés de element vers l_perso
             Object.assign(l_perso, element);
             
             this.listPerso.push(l_perso)
-            //console.log(this.listPerso);
+
           });
          
         })
@@ -121,7 +120,7 @@ export default {
       for (let index = 0; index < this.listPerso.length; index++) {
         if (this.listPerso[index].pseudo == pseudo) {
           this.whoP = index;
-          console.log(index)
+
         }
         
         
@@ -137,7 +136,7 @@ export default {
     
   },
   mounted(){
-    //this.getAllPersonnnage();
+
   }
   
 }

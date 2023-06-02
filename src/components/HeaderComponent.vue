@@ -92,7 +92,6 @@ export default {
                 <div v-else="" class="header-compte-dropdown-menu">
                     <div><router-link :to="{ name: 'authPersonnage' }">Personnage</router-link></div>
                     <div><a @click="deconection">Déconnexion</a></div>
-                    
                 </div>
             
             </div>
