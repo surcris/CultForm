@@ -112,7 +112,8 @@ export default {
          
         })
         .catch((error) => {
-
+          //console.log(error.response.status);
+          if(error.response.status == 404) console.log("Il n'y a pas de personnage a ce compte");
         })
 
     },
