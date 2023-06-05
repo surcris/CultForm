@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test":"cypress open"
+    "test": "cypress open"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.9",
@@ -19,6 +19,7 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "firebase": "^8.10.0",
+    "pinia": "^2.1.3",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
     "vue2-editor": "^2.10.3"

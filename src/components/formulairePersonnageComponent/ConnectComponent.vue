@@ -11,7 +11,7 @@ import Forme from '../../class/forme';
 //dotenv.config({ path: '../../../.env' });
 
 export default {
-    props: ['listJoueur','selectP'],
+    props: ['listJoueur'],
     components: {
 
     },
@@ -64,8 +64,8 @@ export default {
                 this.pseudo = this.listJoueur[this.comptForm].pseudo
             }
         },
-        createForm(forme) {
-            const canvas = document.getElementById('inscripCanvas');
+        createForm(forme, canvasId) {
+            const canvas = document.getElementById('inscripCanvas-'+canvasId);
             const ctx = canvas.getContext('2d');
 
             const canvasWidth = canvas.width;
@@ -99,11 +99,11 @@ export default {
             }
 
         },
-        play() {
-            let l_perso = null
+        play(pseudo) {
+            let l_perso = null;
             for (let index = 0; index < this.listJoueur.length; index++) {
-                //console.log(this.listPerso[index].pseudo,":",pseudo);
-                if (this.pseudo == this.listJoueur[index].pseudo) {
+                //console.log(this.listJoueur[index].pseudo,":",pseudo);
+                if (pseudo == this.listJoueur[index].pseudo) {
                     l_perso = this.listJoueur[index];
 
                 }
@@ -121,18 +121,21 @@ export default {
         },
     },
     mounted() {
-      
+
+        for (let index = 0; index < this.listJoueur.length; index++) {
+            this.createForm(this.listJoueur[index].form, this.listJoueur[index].pseudo);
+        }
+        
     },
     unmounted() {
         
     },
+    created(){
+        
+    
+    },
     watch:{
-        'selectP':function(){
-            
-            this.createForm(this.listJoueur[this.selectP].form)
-            this.pseudo = this.listJoueur[this.selectP].pseudo
-
-        }
+       
     }
 }
 
@@ -142,16 +145,16 @@ export default {
     
     
     <div class="persoinfo">
-        <div class="persoinfo-container">
-            <p>{{ pseudo || "Selectionner un personnage" }}</p>
-            <div>
-                <i ref="arrowLeft" @click="handleArrowLeftClick" class="fa-solid fa-arrow-left"></i>
-                <canvas id="inscripCanvas" width="400" height="400"></canvas>
-                <i ref="arrowRight" @click="handleArrowRightClick" class="fa-solid fa-arrow-right"></i>
+        <div v-for=" joueur in listJoueur" class="persoinfo-container">
+            <div class="persoinfo-container-bg">
+                <p>{{ joueur.pseudo}}</p>
+                <p>{{ joueur.getDomaine()}} {{ joueur.niveau }}</p>
+                <div>
+                    <canvas :id="'inscripCanvas-'+joueur.pseudo" width="300" height="300"></canvas>
+                </div>
+                <div class="btn-play" @click="play(joueur.pseudo)"><i class="fa-solid fa-play"></i></div>
             </div>
-            <button v-if="pseudo != ''" @click="play">PLAY</button>
-            
-        </div>
+        </div> 
         
     </div>
         
@@ -161,31 +164,73 @@ export default {
 
 .persoinfo{
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 70%;
-}
-.persoinfo-container{
-    display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 80%;
 }
-.persoinfo-container div{
+.persoinfo-container{
+    background: radial-gradient(circle at 100% 100%, #0B525B 0, #0B525B 3px, transparent 3px) 0% 0%/8px 8px no-repeat,
+            radial-gradient(circle at 0 100%, #0B525B 0, #0B525B 3px, transparent 3px) 100% 0%/8px 8px no-repeat,
+            radial-gradient(circle at 100% 0, #0B525B 0, #0B525B 3px, transparent 3px) 0% 100%/8px 8px no-repeat,
+            radial-gradient(circle at 0 0, #0B525B 0, #0B525B 3px, transparent 3px) 100% 100%/8px 8px no-repeat,
+            linear-gradient(#2c0d2c, #0B525B) 50% 50%/calc(100% - 10px) calc(100% - 16px) no-repeat,
+            linear-gradient(#2c0d2c, #0B525B) 50% 50%/calc(100% - 16px) calc(100% - 10px) no-repeat,
+            linear-gradient(0deg, transparent 0%, #01FF98 100%);
+    border-radius: 8px;
+    padding: 5px;
+    box-sizing: border-box;
+    width: 30vh;
+    height: 70%;
+}
+.persoinfo-container-bg{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #2c0d2c 60.42%, rgba(11, 82, 91, 0) 100%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.persoinfo-container-bg div:nth-child(1){
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: auto;
 }
-.persoinfo-container p{
+.btn-play{
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: #01FF98 solid 4px;
+    border-radius: 50px;
+    width: 60px;
+    height: 60px;
+}
+.btn-play i::before{
+    height: auto;
+    width: auto;
+    font-size: 35px;
+    
+    padding: 7px 5px;
+    padding-left: 7px;
+    border-radius: 100%;
+    padding-right: 2px;
+    
+    display: flex;
+    justify-content: center;
+    color: #01FF98;
+}
+.persoinfo-container-bg p{
     font-size: 25px;
     color: white;
     margin: 10px 0px 10px 0px;
 }
-.persoinfo-container button{
+.persoinfo-container-bg button{
     font-family: 'Kodchasan';
     font-weight: 600;
     margin: 10px;
@@ -196,7 +241,7 @@ export default {
     border-radius: 25px;
     color: white;
 }
-.persoinfo-container input{
+.persoinfo-container-bg input{
     font-family: 'Kodchasan';
     font-weight: 600;
     margin-bottom: 0px ;
@@ -211,14 +256,12 @@ export default {
 }
 
 
-.persoinfo-container canvas{
-    background-color: #2e2e2e4f;
-    border: 1px #00000063  solid;
+.persoinfo-container-bg canvas{
+
     border-radius: 5px;
-    width: 400px;
-    height: 400px;
+    
 }
-.persoinfo-container i {
+.persoinfo-container-bg i {
     font-size: 35px;
     margin: 0 10px;
     color: #2c0d2c;
@@ -253,7 +296,7 @@ export default {
 }
 
 
-.persoinfo-container canvas{
+.persoinfo-container-bg canvas{
     
     min-width: 300px;
     height: 300px;

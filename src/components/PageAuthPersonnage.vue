@@ -24,6 +24,7 @@ export default {
       formMode: true,
       thekey:thekey,
       etatAuth:false,
+      etatConnect:false,
       listPerso:[],
       whoP:null,
     }
@@ -106,9 +107,9 @@ export default {
             Object.assign(l_perso, element);
             
             this.listPerso.push(l_perso)
-
+            
           });
-         
+          this.etatConnect = true;
         })
         .catch((error) => {
           //console.log(error.response.status);
@@ -148,7 +149,7 @@ export default {
 <template>
     <div id="div-body">
       <HeaderComponent/>
-      <div class="main">
+      <!--<div class="main">
         <div class="persolist">
           <div class="persolist-container">
               <div class="persolist-container-perso-nouveau" @click="changeEtatAuth">
@@ -170,8 +171,11 @@ export default {
       <ConnectComponentVue :listJoueur="listPerso" :selectP="whoP" v-if="etatAuth == false"/>
       <InscipComponent @sendToApp="envoiPerso" v-if="etatAuth == true"/>
      
+      </div>-->
+      <div class="main">
+        <ConnectComponentVue :listJoueur="listPerso" v-if="etatAuth == false && etatConnect == true"/>
+        <InscipComponent @sendToApp="envoiPerso" v-if="etatAuth == true"/>
       </div>
-      
  
     </div>
 

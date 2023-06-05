@@ -14,10 +14,7 @@ export default {
   //(props) pour recevoir les données envoyées depuis le composant parent
   props: ['personnage'],
   components: {
-    CombatComponent,
-    StatsComponent,
-    PersoComponent,
-    OptionPersoComponent,
+   
     
   },
   data() {
@@ -93,6 +90,12 @@ export default {
   align-items: center;
   justify-content: center;
 
+}
+canvas {
+    background-color: #4244461a;
+
+    border: 1px #00000042  solid;
+    border-radius: 5px;
 }
 
 </style>

@@ -128,19 +128,32 @@ export default {
 
 
 <template>
-    <div class="persoinfo">
-        <div class="persoinfo-container">
-            <p>Choisir un pseudo</p>
-            <input type="text" v-model="pseudo">
-            <p>Choisir une forme</p>
-            <div>
-                <i ref="arrowLeft" @click="handleArrowLeftClick" class="fa-solid fa-arrow-left"></i>
-                <canvas id="inscripCanvas" width="400" height="400"></canvas>
-                <i ref="arrowRight" @click="handleArrowRightClick" class="fa-solid fa-arrow-right"></i>
-            </div>
-            <button @click="createPlayer">VALIDER</button>
+
+    <!--
+        <p>Choisir un pseudo</p>
+        <input type="text" v-model="pseudo">
+        <p>Choisir une forme</p>
+        <div>
+            <i ref="arrowLeft" @click="handleArrowLeftClick" class="fa-solid fa-arrow-left"></i>
+            <canvas id="inscripCanvas" width="400" height="400"></canvas>
+            <i ref="arrowRight" @click="handleArrowRightClick" class="fa-solid fa-arrow-right"></i>
         </div>
         
+    -->
+    <div class="persoinfo">
+        <div class="persoinfo-container">
+            <div class="persoinfo-container-bg">
+                <p>Choisir un pseudo</p>
+                <input type="text" v-model="pseudo">
+                <p>Choisir une forme</p>
+                <div>
+                    <i ref="arrowLeft" @click="handleArrowLeftClick" class="fa-solid fa-arrow-left"></i>
+                    <canvas id="inscripCanvas" width="400" height="400"></canvas>
+                    <i ref="arrowRight" @click="handleArrowRightClick" class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+        </div> 
+        <button class="btn-createPerso" @click="createPlayer">VALIDER</button>
     </div>
 </template>
 
@@ -148,42 +161,65 @@ export default {
 <style scoped>
 .persoinfo{
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 70%;
-}
-.persoinfo-container{
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 80%;
+    
 }
-.persoinfo-container div{
+.persoinfo-container{
+    
+    /* background: linear-gradient(180deg, #0B525B 60.42%, rgba(11, 82, 91, 0) 100%); */
+    background: radial-gradient(circle at 100% 100%, #0B525B 0, #0B525B 3px, transparent 3px) 0% 0%/8px 8px no-repeat,
+            radial-gradient(circle at 0 100%, #0B525B 0, #0B525B 3px, transparent 3px) 100% 0%/8px 8px no-repeat,
+            radial-gradient(circle at 100% 0, #0B525B 0, #0B525B 3px, transparent 3px) 0% 100%/8px 8px no-repeat,
+            radial-gradient(circle at 0 0, #0B525B 0, #0B525B 3px, transparent 3px) 100% 100%/8px 8px no-repeat,
+            linear-gradient(#2c0d2c, #0B525B) 50% 50%/calc(100% - 10px) calc(100% - 16px) no-repeat,
+            linear-gradient(#2c0d2c, #0B525B) 50% 50%/calc(100% - 16px) calc(100% - 10px) no-repeat,
+            linear-gradient(0deg, transparent 0%, #01FF98 100%);
+    border-radius: 8px;
+    padding: 5px;
+    box-sizing: border-box;
+    
+    
+    width: 50vh;
+    height: 70%;
+}
+.persoinfo-container-bg{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #2c0d2c 60.42%, rgba(11, 82, 91, 0) 100%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.persoinfo-container-bg div{
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: auto;
 }
-.persoinfo-container p{
+.persoinfo-container-bg p{
     font-size: 25px;
     color: white;
     margin: 10px 0px 10px 0px;
 }
-.persoinfo-container button{
+.btn-createPerso{
     font-family: 'Kodchasan';
     font-weight: 600;
     margin: 10px;
     font-size: 25px;
-    border: white solid 3px;
+    border: #01FF98 solid 3px;
     background-color: #2c0d2c;
     padding: 10px 15px;
-    border-radius: 25px;
-    color: white;
+    border-radius: 10px;
+    color: #01FF98;
+    width: 40vh;
 }
-.persoinfo-container input{
+.persoinfo-container-bg input{
     font-family: 'Kodchasan';
     font-weight: 600;
     margin-bottom: 0px ;
@@ -195,20 +231,21 @@ export default {
     text-align: center;
     border-radius: 5px;
     color: white;
+    margin-bottom: 50px;
 }
 
 
-.persoinfo-container canvas{
-    background-color: #2e2e2e4f;
-    border: 1px #00000063  solid;
+.persoinfo-container-bg .inscripCanvas{
+    background-color: #2e2e2e00;
+    border: none;
     border-radius: 5px;
     width: 400px;
     height: 400px;
 }
-.persoinfo-container i {
+.persoinfo-container-bg i {
     font-size: 35px;
     margin: 0 10px;
-    color: #2c0d2c;
+    color: #01FF98;
 }
 
 @media screen and (max-width: 800px) {
@@ -216,7 +253,7 @@ export default {
 .persoinfo{
     height: auto;
 }
-.persoinfo-container{
+.persoinfo-container-bg{
     margin-top: 20px;
     display: flex;
     align-items: center;
