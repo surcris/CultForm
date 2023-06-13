@@ -64,6 +64,10 @@ export default {
                 this.pseudo = this.listJoueur[this.comptForm].pseudo
             }
         },
+        goToInscrip(){
+            
+            this.$emit('changeAuth');
+        },
         createForm(forme, canvasId) {
             const canvas = document.getElementById('inscripCanvas-'+canvasId);
             const ctx = canvas.getContext('2d');
@@ -111,7 +115,7 @@ export default {
             if (l_perso) {
                 const l_pe = JSON.stringify(l_perso)
                 sessionStorage.setItem("uPlt", l_pe);
-                this.$emit('sendPersonnage', l_perso);
+                //this.$emit('sendPersonnage', l_perso);
                 this.$router.push({ name: 'game' });
             } else {
                 console.log("Erreur du bouton Play");
@@ -145,18 +149,23 @@ export default {
     
     
     <div class="persoinfo">
-        <div v-for=" joueur in listJoueur" class="persoinfo-container">
-            <div class="persoinfo-container-bg">
-                <p>{{ joueur.pseudo}}</p>
-                <p>{{ joueur.getDomaine()}} {{ joueur.niveau }}</p>
-                <div>
-                    <canvas :id="'inscripCanvas-'+joueur.pseudo" width="300" height="300"></canvas>
+        <div class="persoinfo-all">
+            <div v-for=" joueur in listJoueur" class="persoinfo-container">
+                <div class="persoinfo-container-bg">
+                    <p>{{ joueur.pseudo}}</p>
+                    <p>{{ joueur.getDomaine()}} {{ joueur.niveau }}</p>
+                    <div>
+                        <canvas :id="'inscripCanvas-'+joueur.pseudo" width="300" height="300"></canvas>
+                    </div>
+                    <div class="btn-play" @click="play(joueur.pseudo)"><i class="fa-solid fa-play"></i></div>
                 </div>
-                <div class="btn-play" @click="play(joueur.pseudo)"><i class="fa-solid fa-play"></i></div>
-            </div>
-        </div> 
-        
+            </div> 
+        </div>
+        <div @click="goToInscrip()" class="btn-nouveau">
+            <p >Nouveau personnage</p>
+        </div>
     </div>
+    
         
 </template>
 
@@ -164,10 +173,17 @@ export default {
 
 .persoinfo{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
+}
+.persoinfo-all{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 .persoinfo-container{
     background: radial-gradient(circle at 100% 100%, #0B525B 0, #0B525B 3px, transparent 3px) 0% 0%/8px 8px no-repeat,
@@ -265,6 +281,17 @@ export default {
     font-size: 35px;
     margin: 0 10px;
     color: #2c0d2c;
+}
+.btn-nouveau{
+    width: 15vw;
+    text-align: center;
+    border: #01FF98 3px solid;
+    border-radius: 5px;
+    background-color: #2c0d2c;
+    color: #01FF98;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 18px;
 }
 
 @media screen and (max-width: 800px) {

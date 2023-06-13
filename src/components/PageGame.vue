@@ -14,7 +14,10 @@ export default {
   //(props) pour recevoir les données envoyées depuis le composant parent
   props: ['personnage'],
   components: {
-   
+    CombatComponent,
+    StatsComponent,
+    PersoComponent,
+    OptionPersoComponent,
     
   },
   data() {

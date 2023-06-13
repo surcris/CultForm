@@ -5,7 +5,7 @@ import imagePath from '../../assets/logo/Google__G__Logo.svg.png'
 
 import CryptoJS from 'crypto-js';
 import axios from 'axios'
-
+import RequeteController from '../../class/requeteController';
 
 export default {
     props: {
@@ -29,7 +29,8 @@ export default {
             google :{
                 backgroundImage :imagePath,
 
-            }
+            },
+            requete : new RequeteController(),
             //goTo:false
         }
     },
@@ -46,20 +47,11 @@ export default {
         test(){
             console.log("TEST");
         },
-        connectUser(){
-            const apiUrl = import.meta.env.VITE_APP_URL + '/api/user/connexionUser';
-            axios.put(apiUrl,this.infoUser)
-                .then(response => {
-                    //console.log(response.data.message);
-                    sessionStorage.setItem("akey", response.data.message);
-                    //localStorage.setItem('akey', response.data.message)
-                    this.$router.push('/authPersonnage');
-                })
-                .catch(error => {
-                    // Gérer les erreurs ici
-                    console.log("error lors de la requete de connexion");
-                    console.error(error);
-                });
+        async connectUser(){
+            if (await this.requete.connexionUser(this.infoUser) == true) {
+                this.$router.push('/authPersonnage');
+            }
+            
         },
         
 
@@ -87,7 +79,7 @@ export default {
         </div>
         
         <div class="form-submit">
-            <button @click="connectUser" type="submit" class="btn btn-primary my-2">Valider</button>
+            <button @click="connectUser()" type="submit" class="btn btn-primary my-2">Valider</button>
         </div>
         <div class="form-line"></div>
     </form>

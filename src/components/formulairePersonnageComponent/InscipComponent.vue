@@ -6,9 +6,9 @@ import Personnage from '../../class/personnage.js';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import Forme from '../../class/forme';
-
+import RequeteController from '../../class/requeteController';
 export default {
-    //props: ['joueur'],
+    props: ['listJoueur'],
     components: {
 
     },
@@ -18,8 +18,9 @@ export default {
             myForm:null,
             player: [],
             articles: [],
-            pseudo: "",
+            pseudo: null,
             matchBool: true,
+            messageErr:null,
             //goTo:false
             personnage: null,
             tabForme:['carre','cercle','triangle'],
@@ -31,7 +32,8 @@ export default {
             const key = import.meta.env.VITE_APP_KEY;
             return CryptoJS.AES.encrypt(data, key).toString();
         },
-        decrypt(ciphertext, key) {
+        decryptData(ciphertext) {
+            const key = import.meta.env.VITE_APP_KEY;
             const bytes = CryptoJS.AES.decrypt(ciphertext, key);
             return bytes.toString(CryptoJS.enc.Utf8);
         },
@@ -55,26 +57,66 @@ export default {
                 this.createForm(this.tabForme[this.comptForm])
             }
         },
-        createPlayer(){
-            const theKey = this.decrypt(sessionStorage.getItem('akey'), import.meta.env.VITE_APP_KEY)
-            console.log(theKey);
-            this.personnage = new Personnage(this.pseudo,this.tabForme[this.comptForm],theKey)
-            //this.personnage.display();
-            //const serializedObject = JSON.stringify(this.personnage);
+        goToConnex(){
             
-            
-            axios.put(import.meta.env.VITE_APP_URL + '/api/data/', this.personnage)
-                .then((responce) => {
-                    console.log(responce.data.message);
-
-                    this.$emit('sendToApp',this.personnage)
-                    const l_pe = JSON.stringify(this.personnage)
-                    sessionStorage.setItem("uPlt", l_pe);
-                    this.$router.push({ name: 'game'});
-                })
-                .catch(error => {
-                    console.log(error.response.data.message);
+            this.$emit('changeAuth');
+        },
+        createPlayer() {
+            //const theKey = this.decrypt(sessionStorage.getItem('akey'), import.meta.env.VITE_APP_KEY)
+            //console.log(theKey);
+            const requeteC = new RequeteController();
+            requeteC.connexionServ()
+                .then(async (response) => {
+                    const key = sessionStorage.getItem("akey");
+                    const dataR = this.decryptData(key);
+                    //const dataRstruct = JSON.parse(dataR);
+                    
+                    console.log(this.listJoueur.length)
+                    if (this.pseudo != null && this.pseudo != "") {
+                        const l_tempo = await requeteC.getAllPersonnagePseudo(this.pseudo);
+                        
+                        //console.log(l_tempo);
+                        if (l_tempo == true && this.listJoueur.length < 5) {
+                            
+                            this.personnage = new Personnage(this.pseudo,this.tabForme[this.comptForm],dataR)
+                            console.log(this.personnage)
+                            const l_sendP = await requeteC.sendPersonnage(this.personnage)
+                            if (l_sendP == true){
+                                this.$emit('sendToApp', this.personnage)
+                                const l_pe = JSON.stringify(this.personnage)
+                                sessionStorage.setItem("uPlt", l_pe);
+                                this.$router.push({ name: 'game' });
+                            }
+                            
+                        }else{
+                            if (this.listJoueur.length>=5) {
+                                this.messageErr = "Personnage maximum attein";
+                            }else{
+                                this.messageErr = "Pseudo déjà utiliser";
+                            }
+                        }
+                    } else {
+                        console.log('input vide');
+                        this.messageErr = "Veuillez entrer un pseudo";
+                    }
                 });
+            // this.personnage = new Personnage(this.pseudo,this.tabForme[this.comptForm],theKey)
+            // //this.personnage.display();
+            // //const serializedObject = JSON.stringify(this.personnage);
+            
+            
+            // axios.put(import.meta.env.VITE_APP_URL + '/api/data/', this.personnage)
+            //     .then((responce) => {
+            //         console.log(responce.data.message);
+
+            //         this.$emit('sendToApp',this.personnage)
+            //         const l_pe = JSON.stringify(this.personnage)
+            //         sessionStorage.setItem("uPlt", l_pe);
+            //         this.$router.push({ name: 'game'});
+            //     })
+            //     .catch(error => {
+            //         console.log(error.response.data.message);
+            //     });
 
            
             
@@ -118,6 +160,8 @@ export default {
     },
     mounted() {
         this.createForm(this.tabForme[this.comptForm])
+        
+        //requeteC.connexionServ();
     },
     unmounted() {
        
@@ -145,6 +189,7 @@ export default {
             <div class="persoinfo-container-bg">
                 <p>Choisir un pseudo</p>
                 <input type="text" v-model="pseudo">
+                <p>{{ messageErr }}</p>
                 <p>Choisir une forme</p>
                 <div>
                     <i ref="arrowLeft" @click="handleArrowLeftClick" class="fa-solid fa-arrow-left"></i>
@@ -154,6 +199,8 @@ export default {
             </div>
         </div> 
         <button class="btn-createPerso" @click="createPlayer">VALIDER</button>
+        <p @click="goToConnex" class="goToConnex">Choisir un personnage</p>
+        
     </div>
 </template>
 
@@ -231,7 +278,7 @@ export default {
     text-align: center;
     border-radius: 5px;
     color: white;
-    margin-bottom: 50px;
+    
 }
 
 
@@ -246,6 +293,12 @@ export default {
     font-size: 35px;
     margin: 0 10px;
     color: #01FF98;
+}
+.goToConnex{
+    font-weight: 500;
+    font-size: 18px;
+    color: #01FF98;
+    margin: 0;
 }
 
 @media screen and (max-width: 800px) {
