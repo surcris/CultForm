@@ -31,7 +31,7 @@ export default class RequeteController{
         if (infoUser != null) {
             try {
                 const response = await axios.put(import.meta.env.VITE_APP_URL + '/auth/connexionUser', infoUser);
-                //console.log(response.data.message);
+                
                 sessionStorage.setItem("akey", response.data.message);
                 
                 return true;
