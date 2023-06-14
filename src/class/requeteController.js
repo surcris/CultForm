@@ -60,8 +60,18 @@ export default class RequeteController{
     
     async sendPersonnage(personnage) {
         try {
-            if (personnage != null) {
-                const response = await axios.put(import.meta.env.VITE_APP_URL + '/perso/pushPerso/', personnage);
+            const key = sessionStorage.getItem("akT");
+            if (personnage != null && key != null) {
+
+                const response = await axios.put(import.meta.env.VITE_APP_URL + '/perso/pushPerso/', personnage,{
+                    headers: {
+                        Authorization: key,
+                        
+                    },
+                    // params: {
+                    //     ip: ipAddress,
+                    // },
+                });
                 console.log(response.data.message);
                 return true;
             } else {
@@ -108,9 +118,7 @@ export default class RequeteController{
                         Authorization: key,
                         
                     },
-                    // params: {
-                    //     ip: ipAddress,
-                    // },
+                    
                 });
                 //console.log(response.data.message);
                 return response.data.message;
@@ -126,8 +134,15 @@ export default class RequeteController{
 
     async getAllPersonnagePseudo(pseudo) {
         try {
-            if (pseudo != null) {
-                const response = await axios.get(import.meta.env.VITE_APP_URL + '/perso/search/pseudo/' + pseudo);
+            const key = sessionStorage.getItem("akT");
+            if (pseudo != null && key != null) {
+                const response = await axios.put(import.meta.env.VITE_APP_URL + '/perso/search/pseudo/',null,{
+                    headers: {
+                        Authorization: key,
+                        Pseudo:pseudo,
+                    },
+                    
+                });
                 console.log(response.data.message);
                 return response.data.message;
             } else {
