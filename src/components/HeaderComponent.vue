@@ -34,6 +34,7 @@ export default {
         async deconection(){
             if (await this.requeteS.deconnexion() == true) {
                 sessionStorage.removeItem('akey');
+                sessionStorage.removeItem('akt');
                 sessionStorage.removeItem('uPlt');
                 this.getSessionKey();
                 this.$router.push({ name: 'accueil'});
