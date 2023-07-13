@@ -5,13 +5,9 @@ export default class RequeteController{
     async connexionServ() {
         try {
             const key = sessionStorage.getItem("akey");
-            //const ipAddress = window.location.host;
+  
             
-            
-
-            //const token = `Bearer ${key}`;
-            
-            const response = await axios.put(import.meta.env.VITE_APP_URL + '/auth/connectServ/', null, {
+            const response = await axios.get(import.meta.env.VITE_APP_URL + '/auth/connectServ/', null, {
                 headers: {
                     Authorization: key,
 

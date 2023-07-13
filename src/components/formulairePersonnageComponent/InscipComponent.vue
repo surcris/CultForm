@@ -100,25 +100,6 @@ export default {
                         this.messageErr = "Veuillez entrer un pseudo";
                     }
                 });
-            // this.personnage = new Personnage(this.pseudo,this.tabForme[this.comptForm],theKey)
-            // //this.personnage.display();
-            // //const serializedObject = JSON.stringify(this.personnage);
-            
-            
-            // axios.put(import.meta.env.VITE_APP_URL + '/api/data/', this.personnage)
-            //     .then((responce) => {
-            //         console.log(responce.data.message);
-
-            //         this.$emit('sendToApp',this.personnage)
-            //         const l_pe = JSON.stringify(this.personnage)
-            //         sessionStorage.setItem("uPlt", l_pe);
-            //         this.$router.push({ name: 'game'});
-            //     })
-            //     .catch(error => {
-            //         console.log(error.response.data.message);
-            //     });
-
-           
             
         },
         createForm(forme) {

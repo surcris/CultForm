@@ -5,34 +5,34 @@ import { createWebHistory, createRouter } from "vue-router";
 //* Exemple  : les boutons précèdent dans les app Mobile
 // ! la ƒ° createRouter 
 //* permet à VUE d'instancier une nouvelle instance router
-const routes =  [
+const routes = [
     {
         path: "/",
         alias: "/accueil",
         name: "accueil",
         component: () => import("./components/PageAccueil.vue"),
-        
+
     },
     {
         path: "/authPersonnage",
         name: "authPersonnage",
         component: () => import("./components/PageAuthPersonnage.vue"),
-        
-        
+
+
     },
     {
-        
+
         path: "/authUser/:mode",
         name: "authentificationUser",
         component: () => import("./components/PageAuthUser.vue"),
-        props:true
-        
+        props: true
+
     },
     {
         path: "/game",
         name: "game",
         component: () => import("./components/PageGame.vue"),
-        props:true
+        props: true
     },
     // {
     //     name:'Forum',
@@ -40,21 +40,21 @@ const routes =  [
     //     component: () => import("./components/PageForum.vue")
     // },
     {
-        name:'Forum',
-        path:'/Forum/:modeForum',
+        name: 'Forum',
+        path: '/Forum/:modeForum',
         component: () => import("./components/PageForum.vue"),
-        props:true
+        props: true
     },
     {
-        name:'NotFound',
-        path:'/:pathMatch(.*)',
+        name: 'NotFound',
+        path: '/:pathMatch(.*)',
         component: () => import("./components/NotFound.vue")
     },
-    ];
-    
-    const router = createRouter({
+];
+
+const router = createRouter({
     history: createWebHistory(),
     routes,
-    });
-    
-    export default router;
+});
+
+export default router;
