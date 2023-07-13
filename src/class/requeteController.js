@@ -7,7 +7,7 @@ export default class RequeteController{
             const key = sessionStorage.getItem("akey");
   
             
-            const response = await axios.get(import.meta.env.VITE_APP_URL + '/auth/connectServ/', null, {
+            const response = await axios.put(import.meta.env.VITE_APP_URL + '/auth/connectServ/', null, {
                 headers: {
                     Authorization: key,
 
@@ -26,7 +26,7 @@ export default class RequeteController{
     async connexionUser(infoUser){
         if (infoUser != null) {
             try {
-                const response = await axios.get(import.meta.env.VITE_APP_URL + '/auth/connexionUser', infoUser);
+                const response = await axios.put(import.meta.env.VITE_APP_URL + '/auth/connexionUser', infoUser);
                 
                 sessionStorage.setItem("akey", response.data.message);
                 
