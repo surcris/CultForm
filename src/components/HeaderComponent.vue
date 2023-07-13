@@ -36,6 +36,7 @@ export default {
                 sessionStorage.removeItem('akey');
                 sessionStorage.removeItem('akt');
                 sessionStorage.removeItem('uPlt');
+                sessionStorage.removeItem('akT');
                 this.getSessionKey();
                 this.$router.push({ name: 'accueil'});
             }
