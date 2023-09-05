@@ -162,7 +162,7 @@ export default {
             </div> 
         </div>
         <div @click="goToInscrip()" class="btn-nouveau">
-            <p >Nouveau personnage</p>
+            <p>Nouveau personnage</p>
         </div>
     </div>
     

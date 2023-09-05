@@ -152,7 +152,7 @@ export default {
 <template>
     <div id="div-body">
       <HeaderComponent/>
-      <!--<div class="main">
+      <div class="main">
         <div class="persolist">
           <div class="persolist-container">
               <div class="persolist-container-perso-nouveau" @click="changeEtatAuth">
@@ -171,14 +171,14 @@ export default {
           </div>
       </div>
 
-      <ConnectComponentVue :listJoueur="listPerso" :selectP="whoP" v-if="etatAuth == false"/>
-      <InscipComponent @sendToApp="envoiPerso" v-if="etatAuth == true"/>
+      <ConnectComponentVue @changeAuth="changeEtatAuth" :listJoueur="listPerso" :selectP="whoP" v-if="etatAuth == false"/>
+      <InscipComponent @sendToApp="envoiPerso" :listJoueur="listPerso" v-if="etatAuth == true"/>
      
-      </div>-->
-      <div class="main">
+      </div>
+      <!--<div class="main">
         <ConnectComponentVue @changeAuth="changeEtatAuth" :listJoueur="listPerso" v-if="etatAuth == false && etatConnect == true"/>
         <InscipComponent @sendToApp="envoiPerso" @changeAuth="changeEtatAuth" :listJoueur="listPerso" v-if="etatAuth == true"/>
-      </div>
+      </div>-->
  
     </div>
 
