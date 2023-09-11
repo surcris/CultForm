@@ -94,5 +94,11 @@ export default {
   justify-content: center;
 
 }
+canvas {
+    background-color: #4244461a;
+
+    border: 1px #00000042  solid;
+    border-radius: 5px;
+}
 
 </style>

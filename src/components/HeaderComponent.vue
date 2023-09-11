@@ -1,10 +1,12 @@
 <script >
 import axios from 'axios';
+import RequeteController from '../class/requeteController';
 export default {
     props:['headermode'],
     data(){
         return{
             myKey:null,
+            requeteS: new RequeteController()
         }
     },
     methods: {
@@ -23,19 +25,32 @@ export default {
             //location.reload();
 
         },
+        goToAuthPerso(){
+            
+            this.$router.push({ name: 'authPersonnage'});
+            //location.reload();
+
+        },
         async deconection(){
-            await axios.put(import.meta.env.VITE_APP_URL + '/api/user/deconnexion')
-                .then((response) => {
-                    console.log(response.data.message)
-                    sessionStorage.removeItem('akey');
-                    sessionStorage.removeItem('uPlt');
-                    this.getSessionKey();
-                    this.$router.push({ name: 'accueil'});
-                })
-                .catch((error) => {
-                    console.log("error lors de la requete de connexion");
-                    console.error(error);
-                })
+            if (await this.requeteS.deconnexion() == true) {
+                sessionStorage.removeItem('akey');
+                sessionStorage.removeItem('akt');
+                sessionStorage.removeItem('uPlt');
+                sessionStorage.removeItem('akT');
+                this.getSessionKey();
+                this.$router.push({ name: 'accueil'});
+            }
+            // await axios.put(import.meta.env.VITE_APP_URL + '/api/user/deconnexion')
+            //     .then((response) => {
+            //         console.log(response.data.message)
+            //         sessionStorage.removeItem('akey');
+            //         sessionStorage.removeItem('uPlt');
+                    
+            //     })
+            //     .catch((error) => {
+            //         console.log("error lors de la requete de connexion");
+            //         console.error(error);
+            //     })
 
         },
         getSessionKey(){
@@ -90,9 +105,8 @@ export default {
                     <div><a @click="goToInscrip">Inscription</a></div>
                 </div>
                 <div v-else="" class="header-compte-dropdown-menu">
-                    <div><router-link :to="{ name: 'authPersonnage' }">Personnage</router-link></div>
+                    <div><a @click="goToAuthPerso">Personnage</a></div>
                     <div><a @click="deconection">Déconnexion</a></div>
-                    
                 </div>
             
             </div>

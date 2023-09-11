@@ -13,6 +13,7 @@ export default class Forme{
 
     createCercleVide(taille,couleur){
         this.ctx.beginPath();
+        this.ctx.lineWidth = 4;
         this.ctx.strokeStyle = couleur;
         this.ctx.arc(this.canvasWidth / 2, this.canvasHeight / 2, taille, 0, 2 * Math.PI);
         
@@ -23,10 +24,10 @@ export default class Forme{
        
         const squareX = this.canvasWidth / 2 - taille / 2;
         const squareY = this.canvasHeight / 2 - taille / 2;
-
+        this.ctx.lineWidth = 4;
         this.ctx.beginPath();
         this.ctx.rect(squareX, squareY, taille, taille);
-        this.ctx.lineWidth = 4;
+        
         this.ctx.strokeStyle = couleur;
         this.ctx.stroke();
     }
@@ -34,9 +35,11 @@ export default class Forme{
 
         this.ctx.beginPath();
         this.ctx.strokeStyle = couleur;
+        this.ctx.lineWidth = 4;
         this.ctx.moveTo(this.canvasWidth / 2, taille);
         this.ctx.lineTo(taille, this.canvasHeight - taille);
         this.ctx.lineTo(this.canvasWidth - taille, this.canvasHeight - taille);
+        
         this.ctx.closePath();
         this.ctx.stroke();
     }

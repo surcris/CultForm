@@ -9,7 +9,7 @@ import CryptoJS from 'crypto-js';
 import { player } from '../class/personnage';
 import { thekey } from '../class/myKey';
 import Personnage from '../class/personnage';
-
+import RequeteController from '../class/requeteController';
 
 export default {
   components: {
@@ -24,8 +24,10 @@ export default {
       formMode: true,
       thekey:thekey,
       etatAuth:false,
+      etatConnect:false,
       listPerso:[],
       whoP:null,
+      requeteC: new RequeteController(),
     }
   },
  
@@ -41,7 +43,9 @@ export default {
       return bytes.toString(CryptoJS.enc.Utf8);
     },
     changeEtatAuth() {
+      console.log(this.etatAuth);
       this.etatAuth = !this.etatAuth;
+      //console.log(this.etatAuth);
     },
     signInButtonPressed(e) {
       console.log("Sign In Button Pressed");
@@ -90,39 +94,38 @@ export default {
       
     },
     envoiPerso(personnage){
-      //personnage.display()
-      //console.log(personnage)
+
       this.$emit('sendPersonnage', personnage);
     },
     async getAllPersonnnage() {
-      
-      let key = this.decryptData(sessionStorage.getItem('akey'))
-      await axios.get(import.meta.env.VITE_APP_URL+ '/api/perso/'+key)
-        .then((response) => {
-          const objet = JSON.parse(response.data);
-          //console.log(typeof objet);
-          objet.forEach(element => {
-            let l_perso = new Personnage('','','');
+      try {
+        await this.requeteC.connexionServ();
+        //const dataR = this.decryptData(response);
+        //const dataRstruct = JSON.parse(dataR);
+        //console.log(error.response.data.message);
+        const l_tempo = await this.requeteC.getAllPersonnageUser();
+        if (l_tempo != false) {
+          const dataObj = JSON.parse(l_tempo);
+
+          dataObj.forEach(element => {
+            let l_perso = new Personnage('', '', '');
             // Copie des propriétés de element vers l_perso
             Object.assign(l_perso, element);
-            
-            this.listPerso.push(l_perso)
-            //console.log(this.listPerso);
+            this.listPerso.push(l_perso);
           });
-         
-        })
-        .catch((error) => {
-          //console.log(error.response.status);
-          if(error.response.status == 404) console.log("Il n'y a pas de personnage a ce compte");
-        })
-
+          this.etatConnect = true;
+          this.etatAuth = false;
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
     },
     setWhoP(pseudo){
 
       for (let index = 0; index < this.listPerso.length; index++) {
         if (this.listPerso[index].pseudo == pseudo) {
           this.whoP = index;
-          console.log(index)
+
         }
         
         
@@ -138,7 +141,7 @@ export default {
     
   },
   mounted(){
-    //this.getAllPersonnnage();
+
   }
   
 }
@@ -168,11 +171,14 @@ export default {
           </div>
       </div>
 
-      <ConnectComponentVue :listJoueur="listPerso" :selectP="whoP" v-if="etatAuth == false"/>
-      <InscipComponent @sendToApp="envoiPerso" v-if="etatAuth == true"/>
+      <ConnectComponentVue @changeAuth="changeEtatAuth" :listJoueur="listPerso" :selectP="whoP" v-if="etatAuth == false"/>
+      <InscipComponent @sendToApp="envoiPerso" :listJoueur="listPerso" v-if="etatAuth == true"/>
      
       </div>
-      
+      <!--<div class="main">
+        <ConnectComponentVue @changeAuth="changeEtatAuth" :listJoueur="listPerso" v-if="etatAuth == false && etatConnect == true"/>
+        <InscipComponent @sendToApp="envoiPerso" @changeAuth="changeEtatAuth" :listJoueur="listPerso" v-if="etatAuth == true"/>
+      </div>-->
  
     </div>
 
