@@ -59,7 +59,7 @@ export default class RequeteController{
             const key = sessionStorage.getItem("akT");
             if (personnage != null && key != null) {
 
-                const response = await axios.put(import.meta.env.VITE_APP_URL + '/perso/pushPerso/', personnage,{
+                const response = await axios.put(import.meta.env.VITE_APP_URL + '/perso/addPerso/', personnage,{
                     headers: {
                         Authorization: key,
                         
@@ -82,7 +82,7 @@ export default class RequeteController{
 
     async getPersonnage(personnage){
         if (personnage != null) {
-            await axios.put(import.meta.env.VITE_APP_URL + '/perso/api/data/', personnage)
+            await axios.put(import.meta.env.VITE_APP_URL + '/perso/searchPersoPseudo/', personnage)
             .then((responce) => {
                 console.log(responce.data.message);
 
@@ -109,7 +109,7 @@ export default class RequeteController{
             //const ipAddress = window.location.host;
             //console.log(key);
             if (key != false) {
-                const response = await axios.put(import.meta.env.VITE_APP_URL + '/perso/search/id/', null, {
+                const response = await axios.put(import.meta.env.VITE_APP_URL + '/perso/searchDataId/', null, {
                     headers: {
                         Authorization: key,
                         
@@ -132,7 +132,7 @@ export default class RequeteController{
         try {
             const key = sessionStorage.getItem("akT");
             if (pseudo != null && key != null) {
-                const response = await axios.put(import.meta.env.VITE_APP_URL + '/perso/search/pseudo/',null,{
+                const response = await axios.put(import.meta.env.VITE_APP_URL + '/perso/searchPseudo/',null,{
                     headers: {
                         Authorization: key,
                         Pseudo:pseudo,
