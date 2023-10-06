@@ -5,6 +5,7 @@
 import Personnage from '../../class/personnage.js';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
+import Cookies from "js-cookie";
 import Forme from '../../class/forme';
 import RequeteController from '../../class/requeteController';
 export default {
@@ -61,26 +62,35 @@ export default {
             
             this.$emit('changeAuth');
         },
+        validPseudo() {
+            
+            if (!/^[a-zA-Z0-9]+$/.test(this.pseudo)) {
+                this.pseudo = ''; 
+            }
+        },
         createPlayer() {
             //const theKey = this.decrypt(sessionStorage.getItem('akey'), import.meta.env.VITE_APP_KEY)
             //console.log(theKey);
             const requeteC = new RequeteController();
             requeteC.connexionServ()
                 .then(async (response) => {
-                    const key = sessionStorage.getItem("akey");
-                    const dataR = this.decryptData(key);
+                    // recupère le id du joueur stocker dans les cookies
+                    const key = Cookies.get('akey');
+                    // const dataR = this.decryptData(key);
                     //const dataRstruct = JSON.parse(dataR);
-                    
-                    console.log(this.listJoueur.length)
+                    // const key = Cookies.get('authToken');
+                    console.log(key)
                     if (this.pseudo != null && this.pseudo != "") {
                         const l_tempo = await requeteC.getAllPersonnagePseudo(this.pseudo);
                         
-                        //console.log(l_tempo);
+                        console.log(l_tempo);
                         if (l_tempo == true && this.listJoueur.length < 5) {
                             
-                            this.personnage = new Personnage(this.pseudo,this.tabForme[this.comptForm],dataR)
-                            console.log(this.personnage)
-                            const l_sendP = await requeteC.sendPersonnage(this.personnage)
+                            this.personnage = new Personnage(this.pseudo,this.tabForme[this.comptForm],key)
+                            
+                            const jsonPersoString = this.encryptData(JSON.stringify(this.personnage));
+                            // console.log(jsonPersoString)
+                            const l_sendP = await requeteC.sendPersonnage(jsonPersoString)
                             if (l_sendP == true){
                                 this.$emit('sendToApp', this.personnage)
                                 const l_pe = JSON.stringify(this.personnage)
@@ -96,7 +106,7 @@ export default {
                             }
                         }
                     } else {
-                        console.log('input vide');
+                        console.log('input invalide');
                         this.messageErr = "Veuillez entrer un pseudo";
                     }
                 });
@@ -169,7 +179,7 @@ export default {
         <div class="persoinfo-container">
             <div class="persoinfo-container-bg">
                 <p>Choisir un pseudo</p>
-                <input type="text" v-model="pseudo">
+                <input type="text" v-model="pseudo" @input="validPseudo">
                 <p>{{ messageErr }}</p>
                 <p>Choisir une forme</p>
                 <div>
