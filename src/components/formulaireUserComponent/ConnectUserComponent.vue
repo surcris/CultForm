@@ -119,6 +119,7 @@ form{
     
 }
 .form-input input{
+    font-family: 'Kodchasan', sans-serif;
     margin: 10px 0px;
     padding: 10px 0px;
     text-align: center;
@@ -126,7 +127,7 @@ form{
     border-radius: 5px;
     border: none;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 1rem;
     color: #fff;
 }
 .form-input input::placeholder{
@@ -134,7 +135,7 @@ form{
     opacity: 0.5;
     color: white;
     font-weight: 800;
-    font-size: 24px;
+    font-size: 1rem;
 }
 .form-check{
     font-family: 'Kodchasan', sans-serif;
@@ -163,7 +164,7 @@ form{
     border: none;
     font-family: 'Kodchasan', sans-serif;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 1rem;
 }
 /* .form-submit button:hover{
     cursor: pointer;

@@ -153,7 +153,7 @@ export default {
     <div id="div-body">
       <HeaderComponent/>
       <div class="main">
-        <div class="persolist">
+        <!--<div class="persolist">
           <div class="persolist-container">
               <div class="persolist-container-perso-nouveau" @click="changeEtatAuth">
                   <p>Nouveau Personnage +</p>
@@ -169,13 +169,14 @@ export default {
                   </div>
               </div>
           </div>
-      </div>
+      </div>-->
 
       <ConnectComponentVue @changeAuth="changeEtatAuth" :listJoueur="listPerso" :selectP="whoP" v-if="etatAuth == false"/>
       <InscipComponent @sendToApp="envoiPerso" :listJoueur="listPerso" v-if="etatAuth == true"/>
-     
+      
       </div>
       <!--<div class="main">
+        
         <ConnectComponentVue @changeAuth="changeEtatAuth" :listJoueur="listPerso" v-if="etatAuth == false && etatConnect == true"/>
         <InscipComponent @sendToApp="envoiPerso" @changeAuth="changeEtatAuth" :listJoueur="listPerso" v-if="etatAuth == true"/>
       </div>-->
@@ -195,10 +196,13 @@ export default {
     font-family: 'Kodchasan';
 }
 .main{
+    margin-top: 60px;
+    height:calc(100vh - 60px);
     width: 100vw;
-    flex: 1;
     display: flex;
-    flex-direction: row;
+    justify-content: flex-end;
+    flex-direction: column-reverse;
+    align-items: center;
 }
 .persolist{
     height: 100%;

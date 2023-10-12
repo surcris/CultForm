@@ -69,33 +69,39 @@ export default {
             this.$emit('changeAuth');
         },
         createForm(forme, canvasId) {
-            const canvas = document.getElementById('inscripCanvas-'+canvasId);
+            const canvas = document.getElementById('inscripCanvas-'+canvasId) || document.getElementById('inscripCanvas');
+            canvas.width = 300 ;
+            canvas.height = 200 ;
+            // canvas.style.width = canvas.width + 'px';
+            // canvas.style.height =  canvas.height + 'px';
+            // canvasEl.getContext('2d').scale(2, 2);
             const ctx = canvas.getContext('2d');
 
-            const canvasWidth = canvas.width;
-            const canvasHeight = canvas.height;
+            const box = canvas.getBoundingClientRect();
+            const canvasWidth = 304;
+            const canvasHeight = 304;
             this.myForm = new Forme(canvas,ctx)
             
             //console.log( canvasWidth,canvasHeight)
             // Effacer le contenu précédent du canvas
-            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            console.log(canvas.width +" : "+ canvas.height)
             // Dessiner la forme en fonction du paramètre fourni
             switch (forme) {
                 case 'cercle':
-                    const cercleSize = 100;
+                    const cercleSize = 50;
                     this.myForm.createCercleVide(cercleSize,'red')
-                    
+                    console.log('cercle')
                     break;
                 case 'carre':
-                    const carreSize = 200;
+                    const carreSize = 100;
                     this.myForm.createCarreVide(carreSize,'red')
-                    
+                    console.log('carre')
                     break;
                 case 'triangle':
-                    const triangleSize = 110;
+                    const triangleSize = 65;
                     this.myForm.createTriancleVide(triangleSize,'red')
-                    
+                    console.log('triangle')
                     
                     break;
                 default:
@@ -125,17 +131,19 @@ export default {
         },
     },
     mounted() {
-
-        for (let index = 0; index < this.listJoueur.length; index++) {
-            this.createForm(this.listJoueur[index].form, this.listJoueur[index].pseudo);
-        }
+        console.log("Lancement");
+        // console.log(this.$refs['perso-vre'])
+        this.createForm('cercle', 'vre');
         
     },
     unmounted() {
         
     },
     created(){
-        
+        // for (let index = 0; index < this.listJoueur.length; index++) {
+        //     console.log("Lancement 2");
+            
+        // }
     
     },
     watch:{
@@ -148,142 +156,106 @@ export default {
 <template>
     
     
+    
     <div class="persoinfo">
+
         <div class="persoinfo-all">
             <div v-for=" joueur in listJoueur" class="persoinfo-container">
                 <div class="persoinfo-container-bg">
-                    <p>{{ joueur.pseudo}}</p>
-                    <p>{{ joueur.getDomaine()}} {{ joueur.niveau }}</p>
+                    <div class="persoinfo-texte">
+                        <p>{{ joueur.pseudo}}</p>
+                        <p>{{ joueur.getDomaine()}} {{ joueur.niveau }}</p>
+                    </div>
+                    
                     <div>
-                        <canvas :id="'inscripCanvas-'+joueur.pseudo" width="300" height="300"></canvas>
+                        <canvas :id="'inscripCanvas-'+joueur.pseudo" width="200" height="200"></canvas>
                     </div>
                     <div class="btn-play" @click="play(joueur.pseudo)"><i class="fa-solid fa-play"></i></div>
                 </div>
             </div> 
         </div>
+
+        <div class="persoinfo-all-mobile">
+            <div class="persoinfo-container-mobile">
+                <div class="persoinfo-container-bg-mobile">
+                    <div class="container-canvas">
+                        <canvas :id="'inscripCanvas'" ></canvas>
+                    </div>
+                    <div v-for=" joueur in listJoueur" class="persoinfo-select-mobile" >
+                        <div class="persoinfo-selectsous-mobile" :ref="'perso-'+joueur.pseudo">
+                            <div class="persoinfo-texte-mobile">
+                                <p>{{ joueur.pseudo}}</p>
+                                <p>{{ joueur.getDomaine()}} {{ joueur.niveau }}</p>
+                            </div>
+                            <div class="btn-play" @click="play(joueur.pseudo)"><i class="fa-solid fa-play"></i></div>
+
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div> 
+        </div>
+
         <div @click="goToInscrip()" class="btn-nouveau">
             <p>Nouveau personnage</p>
         </div>
     </div>
+
+    
+    
     
         
 </template>
 
 <style scoped>
-
 .persoinfo{
+    height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    justify-content: center;
-    width: 100%;
 }
 .persoinfo-all{
+    width: auto;
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
-    height: 100%;
+    flex-direction: row;
 }
 .persoinfo-container{
-    background: radial-gradient(circle at 100% 100%, #0B525B 0, #0B525B 3px, transparent 3px) 0% 0%/8px 8px no-repeat,
-            radial-gradient(circle at 0 100%, #0B525B 0, #0B525B 3px, transparent 3px) 100% 0%/8px 8px no-repeat,
-            radial-gradient(circle at 100% 0, #0B525B 0, #0B525B 3px, transparent 3px) 0% 100%/8px 8px no-repeat,
-            radial-gradient(circle at 0 0, #0B525B 0, #0B525B 3px, transparent 3px) 100% 100%/8px 8px no-repeat,
-            linear-gradient(#2c0d2c, #0B525B) 50% 50%/calc(100% - 10px) calc(100% - 16px) no-repeat,
-            linear-gradient(#2c0d2c, #0B525B) 50% 50%/calc(100% - 16px) calc(100% - 10px) no-repeat,
-            linear-gradient(0deg, transparent 0%, #01FF98 100%);
-    border-radius: 8px;
-    padding: 5px;
-    box-sizing: border-box;
-    width: 30vh;
-    height: 70%;
+    width: 20vw;
+    min-width: 200px;
+    margin: 0px 5px;
+    padding: 2px;
+    border-radius: 5px;
+    background: linear-gradient(180deg, rgba(1,255,152,1) 53%, rgb(1 255 152 / 0%) 78%, rgb(0 212 255 / 0%) 100%);
+    
 }
 .persoinfo-container-bg{
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, #2c0d2c 60.42%, rgba(11, 82, 91, 0) 100%);
-
+    height: 60vh;
+    background: linear-gradient(180deg, rgba(77,25,77,1) 53%, rgba(77,25,77,0.938813025210084) 78%, rgba(0,212,255,0) 100%);
+    color: aliceblue;
+    font-weight: 700;
+    font-size: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
-.persoinfo-container-bg div:nth-child(1){
+.persoinfo-texte{
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+}
+canvas{
     width: 100%;
-    height: auto;
-}
-.btn-play{
-    margin-top: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border: #01FF98 solid 4px;
-    border-radius: 50px;
-    width: 60px;
-    height: 60px;
-}
-.btn-play i::before{
-    height: auto;
-    width: auto;
-    font-size: 35px;
-    
-    padding: 7px 5px;
-    padding-left: 7px;
-    border-radius: 100%;
-    padding-right: 2px;
-    
-    display: flex;
-    justify-content: center;
-    color: #01FF98;
-}
-.persoinfo-container-bg p{
-    font-size: 25px;
-    color: white;
-    margin: 10px 0px 10px 0px;
-}
-.persoinfo-container-bg button{
-    font-family: 'Kodchasan';
-    font-weight: 600;
-    margin: 10px;
-    font-size: 25px;
-    border: white solid 3px;
-    background-color: #2c0d2c;
-    padding: 10px 15px;
-    border-radius: 25px;
-    color: white;
-}
-.persoinfo-container-bg input{
-    font-family: 'Kodchasan';
-    font-weight: 600;
-    margin-bottom: 0px ;
-    font-size: 25px;
-    width: auto;
-    border: white solid 1px;
-    background-color: #2c0d2c;
-    padding: 10px 15px;
-    text-align: center;
-    border-radius: 5px;
-    color: white;
-}
-
-
-.persoinfo-container-bg canvas{
-
-    border-radius: 5px;
-    
-}
-.persoinfo-container-bg i {
-    font-size: 35px;
-    margin: 0 10px;
-    color: #2c0d2c;
+    height: 100%;
 }
 .btn-nouveau{
     width: 15vw;
+    min-width: 130px;
     text-align: center;
     border: #01FF98 3px solid;
     border-radius: 5px;
@@ -294,42 +266,61 @@ export default {
     font-size: 18px;
 }
 
-@media screen and (max-width: 800px) {
-
-.persoinfo{
-    height: auto;
+.persoinfo-all-mobile{
+    display: none;
 }
-.persoinfo-container{
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 90%;
-    
-}
+@media screen and (max-width: 1020px) {
+    .persoinfo-all{
+        display: none;
+    }
+    .persoinfo-all-mobile{
+        display: flex;
+    }
+    .persoinfo-container-mobile{
+        width: 80vw;
+        max-width: 500px;
+        min-width: 250px;
+        border-radius: 5px;
+        padding: 2px;
+        background: linear-gradient(180deg, rgba(1,255,152,1) 53%, rgb(1 255 152 / 0%) 78%, rgb(0 212 255 / 0%) 100%);
+    }
+    .persoinfo-container-bg-mobile{
+        
 
+        background: linear-gradient(180deg, rgba(77,25,77,1) 53%, rgba(77,25,77,0.938813025210084) 78%, rgba(0,212,255,0) 100%);
+    }
+    .persoinfo-selectsous-mobile{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 5px 10px;
+        padding: 0px 5px;
+        border-radius: 5px;
+        border: white solid 2px;
+    }
+    .persoinfo-texte-mobile p{
+        margin: 0;
+        color: aliceblue;
+    }
+    .container-canvas{
+        
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    canvas{
+        border: #161616 solid 2px;
+        
+        /* max-width: 300px;
+        min-width: 200px;
+        max-height: 300px;
+        min-height: 200px; */
+    }
 }
 
 @media screen and (max-width: 500px) {
 
-.persoinfo-container{
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 80%;
-}
 
-
-.persoinfo-container-bg canvas{
-    
-    min-width: 300px;
-    height: 300px;
-    
-
-}
 }
 
 </style>

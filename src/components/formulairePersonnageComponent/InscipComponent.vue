@@ -127,17 +127,17 @@ export default {
             // Dessiner la forme en fonction du paramètre fourni
             switch (forme) {
                 case 'cercle':
-                    const cercleSize = 100;
+                    const cercleSize = 50;
                     this.myForm.createCercleVide(cercleSize,'red')
                     
                     break;
                 case 'carre':
-                    const carreSize = 200;
+                    const carreSize = 100;
                     this.myForm.createCarreVide(carreSize,'red')
                     
                     break;
                 case 'triangle':
-                    const triangleSize = 110;
+                    const triangleSize = 65;
                     this.myForm.createTriancleVide(triangleSize,'red')
                     
                     
@@ -180,11 +180,11 @@ export default {
             <div class="persoinfo-container-bg">
                 <p>Choisir un pseudo</p>
                 <input type="text" v-model="pseudo" @input="validPseudo">
-                <p>{{ messageErr }}</p>
+                <p v-if="messageErr != null">{{ messageErr }}</p>
                 <p>Choisir une forme</p>
-                <div>
+                <div class="persoinfo-container-choix">
                     <i ref="arrowLeft" @click="handleArrowLeftClick" class="fa-solid fa-arrow-left"></i>
-                    <canvas id="inscripCanvas" width="400" height="400"></canvas>
+                    <canvas id="inscripCanvas" ></canvas>
                     <i ref="arrowRight" @click="handleArrowRightClick" class="fa-solid fa-arrow-right"></i>
                 </div>
             </div>
@@ -201,117 +201,64 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    
-}
-.persoinfo-container{
-    
-    /* background: linear-gradient(180deg, #0B525B 60.42%, rgba(11, 82, 91, 0) 100%); */
-    background: radial-gradient(circle at 100% 100%, #0B525B 0, #0B525B 3px, transparent 3px) 0% 0%/8px 8px no-repeat,
-            radial-gradient(circle at 0 100%, #0B525B 0, #0B525B 3px, transparent 3px) 100% 0%/8px 8px no-repeat,
-            radial-gradient(circle at 100% 0, #0B525B 0, #0B525B 3px, transparent 3px) 0% 100%/8px 8px no-repeat,
-            radial-gradient(circle at 0 0, #0B525B 0, #0B525B 3px, transparent 3px) 100% 100%/8px 8px no-repeat,
-            linear-gradient(#2c0d2c, #0B525B) 50% 50%/calc(100% - 10px) calc(100% - 16px) no-repeat,
-            linear-gradient(#2c0d2c, #0B525B) 50% 50%/calc(100% - 16px) calc(100% - 10px) no-repeat,
-            linear-gradient(0deg, transparent 0%, #01FF98 100%);
-    border-radius: 8px;
-    padding: 5px;
-    box-sizing: border-box;
-    
-    
-    width: 50vh;
-    height: 70%;
+    border-radius: 5px;
+    margin-top: 20px;
+    width: 80vw;
+    max-width: 350px;
+    min-width: 200px;
+    background: linear-gradient(180deg, rgba(77,25,77,1) 53%, rgba(77,25,77,0.938813025210084) 78%, rgba(0,212,255,0) 100%);
 }
 .persoinfo-container-bg{
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, #2c0d2c 60.42%, rgba(11, 82, 91, 0) 100%);
-
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-}
-.persoinfo-container-bg div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: auto;
 }
 .persoinfo-container-bg p{
-    font-size: 25px;
-    color: white;
-    margin: 10px 0px 10px 0px;
+    font-size: 16px;
+    font-weight: 700;
+    color: aliceblue;
 }
-.btn-createPerso{
-    font-family: 'Kodchasan';
-    font-weight: 600;
-    margin: 10px;
-    font-size: 25px;
-    border: #01FF98 solid 3px;
-    background-color: #2c0d2c;
-    padding: 10px 15px;
-    border-radius: 10px;
-    color: #01FF98;
-    width: 40vh;
-}
+
 .persoinfo-container-bg input{
-    font-family: 'Kodchasan';
-    font-weight: 600;
-    margin-bottom: 0px ;
-    font-size: 25px;
-    width: auto;
-    border: white solid 1px;
-    background-color: #2c0d2c;
-    padding: 10px 15px;
-    text-align: center;
     border-radius: 5px;
-    color: white;
+    border: none;
+    font-family: 'Kodchasan';
+    font-size: 15px;
+    font-weight: 600;
+    height: 40px;
     
 }
-
-
-.persoinfo-container-bg .inscripCanvas{
-    background-color: #2e2e2e00;
-    border: none;
-    border-radius: 5px;
-    width: 400px;
-    height: 400px;
-}
-.persoinfo-container-bg i {
-    font-size: 35px;
-    margin: 0 10px;
-    color: #01FF98;
-}
-.goToConnex{
-    font-weight: 500;
-    font-size: 18px;
-    color: #01FF98;
-    margin: 0;
-}
-
-@media screen and (max-width: 800px) {
-
-.persoinfo{
-    height: auto;
-}
-.persoinfo-container-bg{
-    margin-top: 20px;
+.persoinfo-container-choix{
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 90%;
-    
+    flex-direction: row;
+}
+.persoinfo-container-choix i{
+    font-size: 20px;
+    color: #01FF98;
 }
 
+
+button{
+    font-family: 'Kodchasan';
+    border-radius: 5px;
+    border: #01FF98 3px solid ;
+    background-color: #2c0d2c;
+    color: #01FF98;
+    width: 90%;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 700;
 }
 
+.goToConnex{
+    font-size: 16px;
+    font-weight: 700;
+    color: aliceblue;
+}
 @media screen and (max-width: 500px) {
 
-.persoinfo-container{
+/* .persoinfo-container{
     margin-top: 20px;
     display: flex;
     align-items: center;
@@ -327,6 +274,6 @@ export default {
     height: 300px;
     
 
-}
+} */
 }
 </style>

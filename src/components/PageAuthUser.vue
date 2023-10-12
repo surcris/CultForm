@@ -72,7 +72,7 @@ export default {
 <template>
  
   <div id="div-body">
-    <HeaderComponent :headermode="1"/>
+    <HeaderComponent :headermode="0"/>
     <div class="login">
       
       <div v-if="formMode == 'connexion' ">
@@ -143,7 +143,7 @@ export default {
 
 .login {
   flex: 1;
-  width: 360px;
+  min-width: 250px;
   height: min-content;
   padding: 20px;
   border-radius: 12px;
